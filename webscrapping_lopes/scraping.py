@@ -21,17 +21,42 @@ driver.quit() # fechar o navegador
 soup = BeautifulSoup(html_ctnt, 'lxml')
 
 items = []
+
 for div in soup.find_all('div', {'class': 'card ng-star-inserted'}):
+    imovel = {}
+
     estate_info_div = div.find('div', {'class': 'card__textbox_container'})
     # print('estate_info_div:', estate_info_div)
-    price = estate_info_div.find('h4', {'class': 'card__price ng-star-inserted'}).string
+    imovel['preco'] = estate_info_div.find('h4', {'class': 'card__price ng-star-inserted'}).string
     
     location_ps = estate_info_div.find_all('p', {'class': 'card__location'})
-    location = f'{location_ps[0].string} - {location_ps[1].string}'
+    imovel['localizacao'] = f'{location_ps[0].string} - {location_ps[1].string}'
 
-    # metrics = estate_info_div.find('article', {'class': 'card__textbox ng-star-inserted'})
+    metrics = div.find('ul', {'class': 'attributes'}).find_all('li', {'class', 'attributes__icon-wrapper ng-star-inserted'})
 
-    print('Scrapping', price, location)
+    imovel['tags'] = []
+
+    for m in metrics:
+        # lps-icon-ruler -> área total
+        # lps-icon-bed -> dormitórios
+        # lps-icon-car -> vagas
+        # lps-icon-sink -> banheiros
+        tag = {}
+        tag['valor'] = m.find('div', {'class.attributes__value': 'withLabel'}).string
+        
+        if m.find('lps-icon-ruler') != None:
+            tag['significado'] =  'área total'
+        elif m.find('lps-icon-bed') != None:
+            tag['significado'] =  'dormitórios'
+        elif m.find('lps-icon-car') != None:
+            tag['significado'] =  'vagas'
+        elif m.find('lps-icon-sink') != None:
+            tag['significado'] =  'banheiros'
+        else:
+            tag['significado'] =  'desconhecido'
+        imovel['tags'].append(tag)
+
+    print('Scrapping', imovel)
     # items.append(li)
 
 # print(items)
