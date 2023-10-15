@@ -12,4 +12,5 @@ Repositório destinado ao projeto de raspagem de dados imobiliários de luxo.
 ## Setup do projeto
 
 1. Faça a instalação das ferramentas
-2. `pip3 install -r requirements.txt`
+2. Crie o schema / banco de dados `scrap-estates` (`create database scrap_estates`)
+3. `pip3 install -r requirements.txt`
