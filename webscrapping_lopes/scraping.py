@@ -14,11 +14,9 @@ for page in range(2, max_page+1):
     page_soup = get_estate_page_soup(next_page_url)
     estates_datas += extract_estates_from_soup(page_soup)
 
-# Transformar em um dataframe
-df = pd.DataFrame(estates_datas)
-
-# Criar um csv para usar durante o desenvolvimento
-df.to_csv("lopes_imoveis.csv")
-# df = pd.read_csv('lopes_imoveis.csv')
-
-save_to_db(df)
+    # Transformar em um dataframe
+    df = pd.DataFrame(estates_datas)
+    # Criar um csv para usar durante o desenvolvimento
+    df.to_csv(f"lopes_imoveis{page}.csv")
+    # df = pd.read_csv(f"lopes_imoveis{page}.csv")
+    save_to_db(df)
