@@ -17,6 +17,6 @@ def save_to_db(estates_df):
     # estates_df.drop(columns=['Unnamed: 0'], inplace=True)
 
     # Colocar os dados no SQL
-    print('Loading into database...')
+    print('========= Loading into database...')
     estates_df.to_sql(name ='lopes', con =engine, if_exists='append', index=False)
-    print('Saved data on database!')
+    print('========= Saved estates on database!')
