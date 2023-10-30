@@ -26,5 +26,5 @@ def save_to_db(estates, page=1):
 
     # Colocar os dados no SQL
     print("========= Loading into database...")
-    df.to_sql(name="lopes", con=engine, if_exists="append", index=False)
+    df.to_sql(name="vivareal", con=engine, if_exists="append", index=False)
     print("========= Saved estates on database!")
