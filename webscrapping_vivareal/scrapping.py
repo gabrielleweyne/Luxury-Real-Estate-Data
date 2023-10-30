@@ -38,7 +38,7 @@ print(total_imoveis,imoveispp, total_paginas)
 estates = []
 
 for link in lista:
-    id = link.split("/")[3]
+    id = link.split("/")[4]
 
     dicionario_dados = {
                     "source": "vivareal",
@@ -141,7 +141,7 @@ for pagina in range(2, 21):
             dicionario_dados['parking'] = int("".join(re.findall("[0-9]+",vagas)))
         print(vagas)
 
-        endereco = dados.find('li', {'class':"title__address js-address"}).string
+        endereco = dados.find('p', {'class':"title__address js-address"}).string
         dicionario_dados['address'] = endereco
         print(endereco)
     
