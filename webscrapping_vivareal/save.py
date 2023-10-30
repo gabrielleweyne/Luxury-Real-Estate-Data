@@ -10,7 +10,7 @@ def save_to_db(estates, page=1):
     # Transformar em um dataframe
     df = pd.DataFrame(estates)
     # Criar um csv para usar durante o desenvolvimento
-    df.to_csv(f"reports/lopes_imoveis{page}.csv")
+    df.to_csv(f"vivareal_imoveis{page}.csv")
     # df = pd.read_csv(f"lopes_imoveis{page}.csv")
 
     engine = create_engine(SQLALCHEMY_DATABASE_URL)
@@ -26,5 +26,5 @@ def save_to_db(estates, page=1):
 
     # Colocar os dados no SQL
     print("========= Loading into database...")
-    df.to_sql(name="vivareal", con=engine, if_exists="append", index=False)
+    df.to_sql(name="estates", con=engine, if_exists="append", index=False)
     print("========= Saved estates on database!")
