@@ -42,19 +42,19 @@ for link in lista:
     path =  '//*[@id="js-site-main"]/div[2]' # caminho direto para o elemento html que possui todas as informações dos imóveis que queremos raspar
     dados = get_html_soup(link, path)
 
-    preco = dados.find('h3', {'class':"price__price-info js-price-sale"}).string
+    preco = float("".join(re.findall("[0-9]+",dados.find('h3', {'class':"price__price-info js-price-sale"}).string)))
     print(preco)
 
-    area = dados.find('li', {'class':"features__item features__item--area js-area"}).string
+    area = int("".join(re.findall("[0-9]+",dados.find('li', {'class':"features__item features__item--area js-area"}).string)))
     print(area)
 
-    quartos = dados.find('li', {'class':"features__item features__item--bedroom js-bedrooms"}).string
+    quartos = int("".join(re.findall("[0-9]+",dados.find('li', {'class':"features__item features__item--bedroom js-bedrooms"}).string)))
     print(quartos)
 
-    banheiros = dados.find('li', {'class':"features__item features__item--bathroom js-bathrooms"}).string 
+    banheiros = int("".join(re.findall("[0-9]+",dados.find('li', {'class':"features__item features__item--bathroom js-bathrooms"}).string )))
     print(banheiros)
 
-    vagas = dados.find('li', {'class':"features__item features__item--parking js-parking"}).string
+    vagas = int("".join(re.findall("[0-9]+",dados.find('li', {'class':"features__item features__item--parking js-parking"}).string)))
     print(vagas)
 
     dicionario_dados = {"Preco":[preco],
