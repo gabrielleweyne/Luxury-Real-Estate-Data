@@ -38,7 +38,8 @@ print(total_imoveis,imoveispp, total_paginas)
 estates = []
 
 for link in lista:
-    
+    id = link.split("/")[2]
+
     path =  '//*[@id="js-site-main"]/div[2]' # caminho direto para o elemento html que possui todas as informações dos imóveis que queremos raspar
     dados = get_html_soup(link, path)
 
@@ -57,11 +58,19 @@ for link in lista:
     vagas = int("".join(re.findall("[0-9]+",dados.find('li', {'class':"features__item features__item--parking js-parking"}).string)))
     print(vagas)
 
-    dicionario_dados = {"Preco":[preco],
-                    "Area":[area],
-                    "Quartos":[quartos],
-                    "Banheiros":[banheiros],
-                    "Vagas":[vagas]}
+    endereco = dados.find('li', {'class':"title__address js-address"}).string
+    print(endereco)
+
+
+    dicionario_dados = {"price":preco,
+                    "total area":area,
+                    "dorms":quartos,
+                    "toilets":banheiros,
+                    "parking":vagas,
+                    "address":endereco,
+                    "source": "vivareal",
+                    "source_id":id,
+                    "timestamp":  datetime.now()}
     
     estates.append(dicionario_dados)
     
@@ -69,11 +78,14 @@ tabela = pd.DataFrame(estates)
 
 save_to_db(estates, 1) 
 
+print(tabela)
+
 for pagina in range(2, 21):
 
     estates = []
 
     url = f'https://www.vivareal.com.br/venda/sp/sao-paulo/?pagina={pagina}#onde=Brasil,S%C3%A3o%20Paulo,S%C3%A3o%20Paulo,,,,,,BR%3ESao%20Paulo%3ENULL%3ESao%20Paulo,,,&preco-desde=15000000'
+
 
     xpath = '//*[@id="js-site-main"]/div[2]/div[1]/section' # caminho direto para o elemento htlm com a lista dos imóveis
 
@@ -90,6 +102,7 @@ for pagina in range(2, 21):
     print(pagina)
 
     for link in lista:
+        id = link.split("/")[2]
 
         path =  '//*[@id="js-site-main"]/div[2]' # caminho direto para o elemento html que possui todas as informações dos imóveis que queremos raspar
         dados = get_html_soup(link, path)
@@ -114,6 +127,9 @@ for pagina in range(2, 21):
                     "dorms":quartos,
                     "toilets":banheiros,
                     "parking":vagas,
+                    "address":endereco,
+                    "source": "vivareal",
+                    "source_id":id,
                     "timestamp":  datetime.now()}
     
         estates.append(dicionario_dados)
