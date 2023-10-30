@@ -38,7 +38,7 @@ print(total_imoveis,imoveispp, total_paginas)
 estates = []
 
 for link in lista:
-    id = link.split("/")[2]
+    id = link.split("/")[3]
 
     dicionario_dados = {
                     "source": "vivareal",
@@ -48,7 +48,11 @@ for link in lista:
     path =  '//*[@id="js-site-main"]/div[2]' # caminho direto para o elemento html que possui todas as informações dos imóveis que queremos raspar
     dados = get_html_soup(link, path)
 
-    preco = float("".join(re.findall("[0-9]+",dados.find('h3', {'class':"price__price-info js-price-sale"}).string)))
+    preco = "".join(re.findall("[0-9]+",dados.find('h3', {'class':"price__price-info js-price-sale"}).string))
+    if preco == "":
+        dicionario_dados['preco'] = None
+    else:
+        dicionario_dados['preco'] = float(preco)
     print(preco)
 
     area = dados.find('li', {'class':"features__item features__item--area js-area"}).string
@@ -71,7 +75,7 @@ for link in lista:
         dicionario_dados['parking'] = int("".join(re.findall("[0-9]+",vagas)))
     print(vagas)
 
-    endereco = dados.find('li', {'class':"title__address js-address"}).string
+    endereco = dados.find('p', {'class':"title__address js-address"}).string
     dicionario_dados['address'] = endereco
     print(endereco)
     
