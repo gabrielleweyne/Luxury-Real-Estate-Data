@@ -108,7 +108,7 @@ for pagina in range(2, 21):
     print(pagina)
 
     for link in lista:
-        id = link.split("/")[2]
+        id = link.split("/")[4]
 
         dicionario_dados = {
                     "source": "vivareal",
