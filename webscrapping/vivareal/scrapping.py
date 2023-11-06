@@ -48,12 +48,12 @@ for link in lista:
     path =  '//*[@id="js-site-main"]/div[2]' # caminho direto para o elemento html que possui todas as informações dos imóveis que queremos raspar
     dados = get_html_soup(link, path)
 
-    preco = "".join(re.findall("[0-9]+",dados.find('h3', {'class':"price__price-info js-price-sale"}).string))
-    if preco == "":
-        dicionario_dados['preco'] = None
+    price = "".join(re.findall("[0-9]+",dados.find('h3', {'class':"price__price-info js-price-sale"}).string))
+    if price == "":
+        dicionario_dados['price'] = None
     else:
-        dicionario_dados['preco'] = float(preco)
-    print(preco)
+        dicionario_dados['price'] = float(price)
+    print(price)
 
     area = dados.find('li', {'class':"features__item features__item--area js-area"}).string
     if area != None:
@@ -118,12 +118,12 @@ for pagina in range(2, 21):
         path =  '//*[@id="js-site-main"]/div[2]' # caminho direto para o elemento html que possui todas as informações dos imóveis que queremos raspar
         dados = get_html_soup(link, path)
 
-        preco = "".join(re.findall("[0-9]+",dados.find('h3', {'class':"price__price-info js-price-sale"}).string))
-        if preco == "":
-            dicionario_dados['preco'] = None
+        price = "".join(re.findall("[0-9]+",dados.find('h3', {'class':"price__price-info js-price-sale"}).string))
+        if price == "":
+            dicionario_dados['price'] = None
         else:
-             dicionario_dados['preco'] = float(preco)
-        print(preco)
+             dicionario_dados['price'] = float(price)
+        print(price)
 
         area = dados.find('li', {'class':"features__item features__item--area js-area"}).string
         if area != None:
