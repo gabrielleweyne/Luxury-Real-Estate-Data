@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Double, BigInteger
 from typing import Union
 import uvicorn
 
@@ -42,6 +42,23 @@ class User(Base):
     name = Column(String(256))
     email = Column(String(256), unique=True)
     password = Column(String(256))
+
+class Estate(Base):
+    __tablename__ = "estates"
+    address = Column(String(100))
+    dorms = Column(Double())
+    lat = Column(Double())
+    lng = Column(Double())
+    parking = Column(Double())
+    price = Column(Double())
+    toilets = Column(Double())
+    source = Column(String(10))
+    source_id = Column(String(256))
+    timestamp = Column(String(256))
+    total_area  = Column("total area", BigInteger())
+    __mapper_args__ = {
+        "primary_key":[source_id, timestamp]
+    }
 
 
 # Create models on DB
@@ -90,17 +107,19 @@ def validate_page(req: Request, email: str = Form(), password: str = Form()):
     if not user or user.password != password:
         return RedirectResponse("/login")
 
-    resp = RedirectResponse("/protected", 303)
+    resp = RedirectResponse("/estates", 303)
     resp.set_cookie(key="login", value=user.id)
     return resp
 
-@app.get('/protected', response_class=HTMLResponse)
+@app.get('/estates', response_class=HTMLResponse)
 def protected_page(req: Request, login: Union[str, None] = Cookie(default=None)):
     user = session.query(User).filter_by(id=login).first()
     if not user:
         return RedirectResponse('/login')
+    
+    estates = session.query(Estate).all()
 
-    return templates.TemplateResponse("protected.html", {"request": req, "title": "PROTECTED", 'user': user_view(user)})
+    return templates.TemplateResponse("estates.html", {"request": req, "title": "PROTECTED", 'user': user_view(user), 'estates': estates})
 
 # ========= VIEW =========
 def user_view(user: User):
