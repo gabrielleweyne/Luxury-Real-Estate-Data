@@ -3,8 +3,9 @@ from save import save_to_db
 import re
 import math
 import pandas as pd
+from datetime import datetime
 
-url = 'https://www.vivareal.com.br/venda/sp/sao-paulo/#onde=Brasil,S%C3%A3o%20Paulo,S%C3%A3o%20Paulo,,,,,,BR%3ESao%20Paulo%3ENULL%3ESao%20Paulo,,,&preco-desde=15000000'
+url = 'https://www.vivareal.com.br/venda/sp/sao-paulo/#onde=Brasil,S%C3%A3o%20Paulo,S%C3%A3o%20Paulo,,,,,,BR%3ESao%20Paulo%3ENULL%3ESao%20Paulo,,,&preco-desde=15000000' # link
 
 xpath = '//*[@id="js-site-main"]/div[2]/div[1]/section' # caminho direto para o elemento htlm com a lista dos imóveis
 
@@ -37,36 +38,54 @@ print(total_imoveis,imoveispp, total_paginas)
 estates = []
 
 for link in lista:
-    
+    id = link.split("/")[4]
+
+    dicionario_dados = {
+                    "source": "vivareal",
+                    "source_id":id,
+                    "timestamp":  datetime.now()}
+
     path =  '//*[@id="js-site-main"]/div[2]' # caminho direto para o elemento html que possui todas as informações dos imóveis que queremos raspar
     dados = get_html_soup(link, path)
 
-    preco = dados.find('h3', {'class':"price__price-info js-price-sale"}).string
-    print(preco)
+    price = "".join(re.findall("[0-9]+",dados.find('h3', {'class':"price__price-info js-price-sale"}).string))
+    if price == "":
+        dicionario_dados['price'] = None
+    else:
+        dicionario_dados['price'] = float(price)
+    print(price)
 
     area = dados.find('li', {'class':"features__item features__item--area js-area"}).string
+    if area != None:
+        dicionario_dados['total area'] = int("".join(re.findall("[0-9]+",area)))
     print(area)
 
     quartos = dados.find('li', {'class':"features__item features__item--bedroom js-bedrooms"}).string
+    if quartos != None:
+        dicionario_dados['dorms'] = int("".join(re.findall("[0-9]+",quartos)))
     print(quartos)
 
-    banheiros = dados.find('li', {'class':"features__item features__item--bathroom js-bathrooms"}).string 
+    banheiros = dados.find('li', {'class':"features__item features__item--bathroom js-bathrooms"}).string
+    if banheiros != None:
+        dicionario_dados['toilets'] = int("".join(re.findall("[0-9]+",banheiros)))
     print(banheiros)
 
     vagas = dados.find('li', {'class':"features__item features__item--parking js-parking"}).string
+    if vagas != None:
+        dicionario_dados['parking'] = int("".join(re.findall("[0-9]+",vagas)))
     print(vagas)
 
-    dicionario_dados = {"Preco":[preco],
-                    "Area":[area],
-                    "Quartos":[quartos],
-                    "Banheiros":[banheiros],
-                    "Vagas":[vagas]}
+    endereco = dados.find('p', {'class':"title__address js-address"}).string
+    dicionario_dados['address'] = endereco
+    print(endereco)
     
     estates.append(dicionario_dados)
     
 tabela = pd.DataFrame(estates)
 
 save_to_db(estates, 1) 
+
+print(tabela)
 
 for pagina in range(2, 21):
 
@@ -89,37 +108,48 @@ for pagina in range(2, 21):
     print(pagina)
 
     for link in lista:
+        id = link.split("/")[4]
+
+        dicionario_dados = {
+                    "source": "vivareal",
+                    "source_id":id,
+                    "timestamp":  datetime.now()}
 
         path =  '//*[@id="js-site-main"]/div[2]' # caminho direto para o elemento html que possui todas as informações dos imóveis que queremos raspar
         dados = get_html_soup(link, path)
 
-        preco = dados.find('h3', {'class':"price__price-info js-price-sale"}).string
-        print(preco)
+        price = "".join(re.findall("[0-9]+",dados.find('h3', {'class':"price__price-info js-price-sale"}).string))
+        if price == "":
+            dicionario_dados['price'] = None
+        else:
+             dicionario_dados['price'] = float(price)
+        print(price)
 
         area = dados.find('li', {'class':"features__item features__item--area js-area"}).string
+        if area != None:
+            dicionario_dados['total area'] = int("".join(re.findall("[0-9]+",area)))
         print(area)
 
         quartos = dados.find('li', {'class':"features__item features__item--bedroom js-bedrooms"}).string
+        if quartos != None:
+            dicionario_dados['dorms'] = int("".join(re.findall("[0-9]+",quartos)))
         print(quartos)
 
-        banheiros = dados.find('li', {'class':"features__item features__item--bathroom js-bathrooms"}).string 
+        banheiros = dados.find('li', {'class':"features__item features__item--bathroom js-bathrooms"}).string
+        if banheiros != None:
+            dicionario_dados['toilets'] = int("".join(re.findall("[0-9]+",banheiros)))
         print(banheiros)
 
         vagas = dados.find('li', {'class':"features__item features__item--parking js-parking"}).string
+        if vagas != None:
+            dicionario_dados['parking'] = int("".join(re.findall("[0-9]+",vagas)))
         print(vagas)
 
-        dicionario_dados = {"Preco":[preco],
-                    "Area":[area],
-                    "Quartos":[quartos],
-                    "Banheiros":[banheiros],
-                    "Vagas":[vagas]}
+        endereco = dados.find('p', {'class':"title__address js-address"}).string
+        dicionario_dados['address'] = endereco
+        print(endereco)
     
         estates.append(dicionario_dados)
     
     tabela = pd.DataFrame(estates)
     save_to_db(estates, pagina) 
-
-
-   
-
-

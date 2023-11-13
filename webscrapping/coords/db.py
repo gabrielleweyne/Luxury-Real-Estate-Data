@@ -6,11 +6,9 @@ import pandas as pd  # manipulação de dados
 SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root@localhost:3306/scrap_estates"
 
 
-def save_to_db(estates, page=1):
-    # Transformar em um dataframe
-    df = pd.DataFrame(estates)
+def save_to_db(estates_df, page=1):
     # Criar um csv para usar durante o desenvolvimento
-    df.to_csv(f"reports/lopes_imoveis{page}.csv")
+    estates_df.to_csv(f"cep{page}.csv")
     # df = pd.read_csv(f"lopes_imoveis{page}.csv")
 
     engine = create_engine(SQLALCHEMY_DATABASE_URL)
@@ -26,5 +24,13 @@ def save_to_db(estates, page=1):
 
     # Colocar os dados no SQL
     print("========= Loading into database...")
-    df.to_sql(name="vivareal", con=engine, if_exists="append", index=False)
+    estates_df.to_sql(name="estates", con=engine, if_exists="replace", index=False)
     print("========= Saved estates on database!")
+
+
+def read_all_from_db():
+    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+
+    conn = engine.connect()
+
+    return pd.read_sql("select * from estates", conn)
