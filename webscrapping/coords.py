@@ -3,6 +3,7 @@ import pandas as pd
 
 
 def put_coords(estates_df):
+    print("==================> GETTING COORDS ")
     return estates_df.join(
         pd.DataFrame(
             list(map(lambda edf: find_coords(edf[1].address), estates_df.iterrows()))
@@ -11,6 +12,6 @@ def put_coords(estates_df):
 
 
 def find_coords(addr):
-    return googlemaps.Client(key="AIzaSyDi3oATpkJ1USNDDWxb_oID8n01Mv9n3eM").geocode(
+    return googlemaps.Client(key="API_KEY").geocode(
         addr
     )[0]["geometry"]["location"]

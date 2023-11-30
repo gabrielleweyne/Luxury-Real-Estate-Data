@@ -1,10 +1,10 @@
 from .extract import get_estate_page_soup, extract_estates_from_soup
 from .config import get_lopes_listing_url
-from tqdm import tqdm
 import pandas as pd
 
 
 def webscrapping():
+    print("==================> WEBSCRAPPING LOPES ")
     print("========= EXTRACTING ESTATES: PAGE 1 =========")
     [max_page, soup] = get_estate_page_soup(
         get_lopes_listing_url(), return_max_page=True
