@@ -64,7 +64,7 @@ def login_user(email: str, password: str):
 
 # listagem de imóveis
 @api_routes.get("/estates")
-def list_estates(login: Union[str, None] = Cookie(default=None)):
+def list_estates(favourited: bool = False, login: Union[str, None] = Cookie(default=None)):
     # Validar se o usuário está logado
     user = session.query(User).filter_by(id=login).first()
     if not user:
@@ -78,17 +78,20 @@ def list_estates(login: Union[str, None] = Cookie(default=None)):
     )
 
     # query para pegar os imóveis da subquery
-    estates = (
-        session.query(Estate)
-        .join(
-            subquery,
-            and_(
-                subquery.c.source_id == Estate.source_id,
-                subquery.c.timestamp == Estate.timestamp,
-            ),
-        )
-        .all()
+    get_estates_query = session.query(Estate).join(
+        subquery,
+        and_(
+            subquery.c.source_id == Estate.source_id,
+            subquery.c.timestamp == Estate.timestamp,
+        ),
     )
+
+    if favourited:
+        get_estates_query = (
+            get_estates_query.join(EstatesInd).join(Favourite).filter_by(favourited=1)
+        )
+
+    estates = get_estates_query.all()
 
     # responder os imóveis listados
     return JSONResponse(list(map(lambda e: e.to_view(), estates)))
@@ -96,8 +99,8 @@ def list_estates(login: Union[str, None] = Cookie(default=None)):
 
 @api_routes.post("/favourite")
 def favourite_estate(
-    estate_source_id: str,
-    favourite: bool,
+    estate_ind_id: str,
+    favourited: bool,
     login: Union[str, None] = Cookie(default=None),
 ):
     # Validar se o usuário está logado
@@ -105,13 +108,21 @@ def favourite_estate(
     if not user:
         return JSONResponse({"message": "ACCESS FORBIDEN"}, 403)
 
-    favourite = Favourite(
-        user_id=user.id,
-        estate_ind_source_id=estate_source_id,
-        favourited=1 if favourite else 0,
+    favourite = (
+        session.query(Favourite).filter_by(user_id=login and estate_ind_id).first()
     )
-    session.add(favourite)
+
     try:
+        if favourite == None:
+            favourite = Favourite(
+                user_id=user.id,
+                estates_ind_id=estate_ind_id,
+                favourited=1 if favourite else 0,
+            )
+
+            session.add(favourite)
+        else:
+            favourite.favourited = 1 if favourited else 0
         # salva as alterações
         session.commit()
         # resposta com os dados do favorito

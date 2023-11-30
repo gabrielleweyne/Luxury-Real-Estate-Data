@@ -37,4 +37,5 @@ class Estate(Base):
             "source_id": self.source_id,
             "timestamp": self.timestamp,
             "total_area": self.total_area,
+            "estate_ind_id": self.estates_ind_id
         }
