@@ -14,8 +14,6 @@ from models.estates_ind import EstatesInd
 
 api_routes = APIRouter(prefix="/api")
 
-templates = Jinja2Templates(directory="templates")
-
 
 @api_routes.post("/users")
 def create_user(name: str, email: str, password: str):
@@ -64,7 +62,10 @@ def login_user(email: str, password: str):
 
 # listagem de imóveis
 @api_routes.get("/estates")
-def list_estates(favourited: bool = False, login: Union[str, None] = Cookie(default=None)):
+def list_estates(
+    favourited:bool=False,
+    login: Union[str, None] = Cookie(default=None),
+):
     # Validar se o usuário está logado
     user = session.query(User).filter_by(id=login).first()
     if not user:
@@ -133,39 +134,3 @@ def favourite_estate(
         session.rollback()
         # resposta de erro
         return JSONResponse({"message": "INVALID DATA"}, status_code=400)
-
-
-# ========= HTML CONTROLLER =========
-@api_routes.get("/login", response_class=HTMLResponse)
-def login_page(req: Request):
-    return templates.TemplateResponse("login.html", {"request": req, "title": "LOGIN"})
-
-
-@api_routes.post("/validate", response_class=HTMLResponse)
-def validate_page(req: Request, email: str = Form(), password: str = Form()):
-    user = session.query(User).filter_by(email=email).first()
-    if not user or user.password != password:
-        return RedirectResponse("/login")
-
-    resp = RedirectResponse("/estates", 303)
-    resp.set_cookie(key="login", value=user.id)
-    return resp
-
-
-@api_routes.get("/estates", response_class=HTMLResponse)
-def protected_page(req: Request, login: Union[str, None] = Cookie(default=None)):
-    user = session.query(User).filter_by(id=login).first()
-    if not user:
-        return RedirectResponse("/login")
-
-    estates = session.query(Estate).all()
-
-    return templates.TemplateResponse(
-        "estates.html",
-        {
-            "request": req,
-            "title": "PROTECTED",
-            "user": user.to_view(),
-            "estates": estates,
-        },
-    )
