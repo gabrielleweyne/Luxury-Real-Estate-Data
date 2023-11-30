@@ -49,6 +49,13 @@ def login_user(email: str, password: str):
     resp.set_cookie(key="login", value=user.id)
     return resp
 
+@api_routes.get("/users/me")
+def logged_user(login: Union[str, None] = Cookie(default=None)):
+    user = session.query(User).filter_by(id=login).first()
+    if not user:
+        return JSONResponse({"message": "ACCESS FORBIDEN"}, 403)
+    return JSONResponse(content=user.to_view())
+
 
 # TESTE DE ACESSO PROTEGIDO
 # @api_routes.get("/protected")
@@ -63,8 +70,7 @@ def login_user(email: str, password: str):
 # listagem de imóveis
 @api_routes.get("/estates")
 def list_estates(
-    favourited:bool=False,
-    login: Union[str, None] = Cookie(default=None),
+    favourited: bool = False, login: Union[str, None] = Cookie(default=None)
 ):
     # Validar se o usuário está logado
     user = session.query(User).filter_by(id=login).first()
@@ -96,6 +102,21 @@ def list_estates(
 
     # responder os imóveis listados
     return JSONResponse(list(map(lambda e: e.to_view(), estates)))
+
+
+@api_routes.get("/estates/{estate_ind_id}")
+def get_estate(estate_ind_id: int, login: Union[str, None] = Cookie(default=None)):
+    # Validar se o usuário está logado
+    user = session.query(User).filter_by(id=login).first()
+    if not user:
+        return JSONResponse({"message": "ACCESS FORBIDEN"}, 403)
+
+    estate_ind = session.query(EstatesInd).filter_by(id=estate_ind_id).first()
+
+    if estate_ind == None:
+        return JSONResponse({"message": "ESTATE NOT FOUND"}, 400)
+
+    return JSONResponse({"estateData": list(map(lambda e: e.to_view(), estate_ind.estates))})
 
 
 @api_routes.post("/favourite")
