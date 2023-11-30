@@ -4,7 +4,7 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup  # Parseador de HTML
-from url import get_lopes_root_url
+from webscrapping.lopes.config import get_lopes_root_url
 
 listing_xpath = "/html/body/lps-root/lps-search/div/div/div/div/lps-search-grid/lps-search-content/div/div[1]/div[2]/lps-card-grid/div[1]/ul"
 max_page_xpath = "/html/body/lps-root/lps-search/div/div/div/div/lps-search-grid/div/lps-pagination/ul/li[8]/span"
@@ -56,7 +56,7 @@ def extract_estates_from_soup(page_soup):
             lambda el: get_lopes_root_url() + el.find("a").get("href"),
             page_soup.find_all("div", {"class": "card ng-star-inserted"}),
         )
-    )
+    )[::4]
 
     print(f"========= FOUND {len(estate_links)} ESTATES")
 
@@ -76,13 +76,15 @@ def extract_estates_from_soup(page_soup):
             "lps-product-address"
         ).div.p.string
 
-        estate_data["price"] = float("".join(
-            re.findall(
-                "[0-9]+",
-                estate_info_html.find("lps-product-price")
-                .find("p", {"class": "product-price__body ng-star-inserted"})
-                .string,
-            ))
+        estate_data["price"] = float(
+            "".join(
+                re.findall(
+                    "[0-9]+",
+                    estate_info_html.find("lps-product-price")
+                    .find("p", {"class": "product-price__body ng-star-inserted"})
+                    .string,
+                )
+            )
         )
 
         for attr_li in estate_info_html.find_all(
@@ -96,7 +98,7 @@ def extract_estates_from_soup(page_soup):
                 ).string
                 estate_data[key] = int("".join(re.findall("[0-9]+", data_str)))
 
-        estate_data['timestamp'] = datetime.now()
+        estate_data["timestamp"] = datetime.now()
         estates_datas.append(estate_data)
         print("FINISHED", estate_data["source_id"], estate_data)
 

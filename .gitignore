@@ -1,6 +1,4 @@
 geckodriver.log
 **/__pycache__
-.vscode
-lopes_imoveis*.csv
 .DS_Store
-vivareal_imoveis*.csv
+ESTATES_BACKUP.csv

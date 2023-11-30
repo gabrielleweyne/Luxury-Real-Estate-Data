@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='/estates.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/estates.js') }}">
+    <title>LISTAGEM DE IMÓVEIS</title>
+</head>
+<body>
+    <h1>Imóves raspados</h1>
+    <ol>
+    {% for estate in estates %}
+        <li>
+            <ul>{{estate.address}}</ul>
+            <ul>{{estate.dorms}}</ul>
+            <ul>{{estate.price}}</ul>
+            <ul>{{estate.source}}</ul>
+            <ul>{{estate.total_area}}</ul>
+        </li>
+    {% endfor %}
+    </ol>
+</body>
+</html>
