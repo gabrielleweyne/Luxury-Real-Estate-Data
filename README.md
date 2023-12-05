@@ -12,6 +12,11 @@ Repositório destinado ao projeto de raspagem de dados imobiliários de luxo.
 ## Setup do projeto
 
 1. Faça a instalação das ferramentas
-2. Crie o schema / banco de dados `scrap-estates` (`create database scrap_estates`)
+2. Crie o schema / banco de dados `scrap-estates` no MySQL (`create database scrap_estates`)
 3. `pip3 install -r requirements.txt`
-4. `cd api && python3 main.py`
+
+## Como usar o projeto
+
+- Para rodar a API: `python3 main.py`
+- Para rodar o webscrapping: `python3 -m webscrapping`
+- Para rodar os testes: `pytest`
