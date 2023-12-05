@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofNplK+5Tk5uZI3YUjPiRQQF5FfgoCc15r" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', path='home.css') }}">
+
+    <title>Home Page</title>
+</head>
+
+<body>
+    <div class="menu">
+
+        <div class="barra">
+
+            <img src="{{ url_for('static', path='logo_iggpl_luxury.jpg') }}">
+
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Listagem</a></li>
+                <li><a href="#">Perfil</a></li>
+            </ul>
+
+            <div class="search_wrap search_wrap_3">
+                <div class="search_box">
+                    <form action="validate" method="post"></form>
+                    <input type="text" class="input" placeholder="Busque aqui">
+                    <button class="btn btn_common ">
+                        <img src="{{ url_for('static', path='lupa.png') }}"
+                            style="width: 15px; height: auto; margin-left: -8px; margin-top: 2px;">
+                    </button>
+                    </form>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <h1 class="titulo">MERCADO IMOBILIÁRIO DE LUXO</h1>
+
+    </div>
+</body>
+
+</html>

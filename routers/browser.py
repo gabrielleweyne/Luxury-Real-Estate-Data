@@ -18,7 +18,7 @@ browser_routes = APIRouter()
 
 
 # ========= HTML CONTROLLER =========
-@browser_routes.get("/login", response_class=HTMLResponse)
+@browser_routes.get("/", response_class=HTMLResponse)
 def login_page(req: Request):
     return templates.TemplateResponse("login.html", {"request": req, "title": "LOGIN"})
 
@@ -43,7 +43,7 @@ def protected_page(req: Request, login: Union[str, None] = Cookie(default=None))
     estates = session.query(Estate).all()
 
     return templates.TemplateResponse(
-        "estates.html",
+        "home.html",
         {
             "request": req,
             "title": "PROTECTED",

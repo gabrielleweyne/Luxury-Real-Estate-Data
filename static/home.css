@@ -1,0 +1,137 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #00171C 0%, #252F31 28.99%, #333839 54.17%, #1F2B2E 71.54%, #00171C 100%);
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu{
+    background-color: white;
+    position: fixed;
+    width: 100%
+}
+
+.barra{
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.barra img{
+    width: 120px;
+    height: auto;
+    padding: 10px;
+    padding-right: 20px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.barra ul{
+    list-style: none;
+    padding: 0px;
+    margin: 0;
+    text-align: center;
+}
+
+.barra li{
+    display: inline-block;
+}
+
+.barra a{
+    text-decoration: none;
+    color: black;
+    width: 100px;
+    padding-top: 44px;
+    padding-bottom: 40px;
+    display: block;
+    font-size: 15px;
+    text-align: center;
+    font-family: Anek Gurmukhi;
+}
+
+.barra form{
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 40px;
+    padding: 5px;
+}
+
+.barra input{
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 40px;
+    padding: 5px;
+}
+
+
+
+.search_wrap.search_wrap_3 .search_box .input{
+	padding-right: 80px;
+    height: 20px;
+    border: none;
+    outline: none;
+    background-color: rgb(244, 243, 243);
+    padding-left: 10px;
+    color: rgb(167, 165, 165);;
+}
+
+.search_wrap.search_wrap_3 .search_box .input{
+	border-radius: 50px;
+}
+
+.search_wrap.search_wrap_3 .search_box .btn{
+	right: 0px;
+	border-radius: 50%;
+}
+
+.search_wrap .search_box{
+	position: relative;
+	width: 500px;
+	height: 60px;
+    padding-left: 87px;
+    margin-left: 251px;
+}
+
+.search_wrap .search_box .btn{
+	position: absolute;
+    margin-top: 40px;
+    margin-right: 1px;
+	top: 0;
+	right: 0;
+	width: 30px;
+	height: 50%;
+	background: rgb(223, 222, 222);
+	cursor: pointer;
+    border: none;
+}
+
+
+.search_wrap .search_box .btn:hover{
+	background: rgb(169, 169, 169);
+    
+}
+
+.search_wrap .search_box .btn.btn_common .fas{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 20px;
+    border: none;
+    outline: none;
+}
+
+h1{
+    color: black;
+    text-align: center;
+    margin: 0%;
+    font-family: Be Vietnam Pro;
+    font-size: 45px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 20px;
+}
+
