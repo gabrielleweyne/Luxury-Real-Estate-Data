@@ -1,15 +1,10 @@
 from fastapi import APIRouter, Request, Cookie, Form
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from sqlalchemy import and_, func
-from sqlalchemy.exc import SQLAlchemyError
 from typing import Union
-from models import session
 from models import session
 from models.user import User
 from models.estate import Estate
-from models.favourite import Favourite
-from models.estates_ind import EstatesInd
 
 
 templates = Jinja2Templates(directory="templates")

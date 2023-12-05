@@ -61,3 +61,4 @@ unattended-upgrades
 uvicorn
 zope.interface
 python-multipart
+httpx
