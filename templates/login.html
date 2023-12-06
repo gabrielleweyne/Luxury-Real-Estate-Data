@@ -5,24 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', path='/login.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', path='/login.js') }}">
-    <title>{{ title }}</title>
+    
+    <title>Login</title>
 </head>
-
 <body>
-    <h1>LOGIN PAGE</h1>
-    <div class="container">
-        <form action="validate" method="post">
-            <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter email" name="email" required>
+   
+    <h1 class="titulo" >MERCADO IMOBILIÁRIO DE LUXO</h1>
 
-            <label for="password"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password" required>
+    <div class="area-login">
+        <div class="login">
+            <div>
+                <img src="static/images/logo_iggpl_luxury.jpg" >
+            </div>
 
-            <input type="hidden" name="resp-type" value="html-resp" />
-
-            <button type="submit">Login</button>
-        </form>
+            <form action="validate" method="POST">
+                <input type="text" name="email" placeholder="E-mail" required>
+                <input type="password" name="password" placeholder="Senha" required>
+                <input type="submit" value="entrar">
+            </form>
+            <p>Ainda não tem uma conta?<a href="#">Criar conta</a></p>
+        </div>
     </div>
 </body>
 
