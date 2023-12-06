@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request, Cookie, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from typing import Union
+from sqlalchemy.exc import SQLAlchemyError
 from models import session
 from models.user import User
 from models.estate import Estate
@@ -15,7 +16,36 @@ browser_routes = APIRouter()
 # ========= HTML CONTROLLER =========
 @browser_routes.get("/", response_class=HTMLResponse)
 def login_page(req: Request):
+    return RedirectResponse("/login", 303)
+
+@browser_routes.get("/login", response_class=HTMLResponse)
+def login_page(req: Request):
     return templates.TemplateResponse("login.html", {"request": req, "title": "LOGIN"})
+
+
+@browser_routes.get("/create-user", response_class=HTMLResponse)
+def create_user_page(req: Request):
+    return templates.TemplateResponse(
+        "login.html", {"request": req, "title": "LOGIN", "create_user": True}
+    )
+
+
+@browser_routes.post("/new-user", response_class=HTMLResponse)
+def create_user_page(req: Request, name: str = Form(), email: str = Form(), password: str = Form()):
+    user = User(name=name, email=email, password=password)
+    # adiciona ele no banco de dados
+    session.add(user)
+    try:
+        # salva as alterações
+        session.commit()
+        # resposta com os dados do usuário
+        return RedirectResponse("/login", 303)
+    # se o usuário for inválido
+    except SQLAlchemyError:
+        # remover aletarções
+        session.rollback()
+        # resposta de erro
+        return RedirectResponse("/create-user", 303)
 
 
 @browser_routes.post("/validate", response_class=HTMLResponse)

@@ -18,12 +18,27 @@
                 <img src="static/images/logo_iggpl_luxury.jpg" >
             </div>
 
+            {% if create_user %}
+            <form action="new-user" method="POST">
+            {% else %}
             <form action="validate" method="POST">
+            {% endif%}
+                {% if create_user %}
+                <input type="text" name="name" placeholder="Nome" required>
+                {% endif%}
                 <input type="text" name="email" placeholder="E-mail" required>
                 <input type="password" name="password" placeholder="Senha" required>
+                {% if create_user %}
+                <input type="submit" value="criar">
+                {% else %}
                 <input type="submit" value="entrar">
+                {% endif%}
             </form>
-            <p>Ainda não tem uma conta?<a href="#">Criar conta</a></p>
+            {% if create_user %}
+            <p>Já criou uma conta?<a href="/">Faça login</a></p>
+            {% else %}
+            <p>Ainda não tem uma conta?<a href="/create-user">Criar conta</a></p>
+            {% endif%}
         </div>
     </div>
 </body>
