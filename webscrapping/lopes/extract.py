@@ -56,7 +56,7 @@ def extract_estates_from_soup(page_soup):
             lambda el: get_lopes_root_url() + el.find("a").get("href"),
             page_soup.find_all("div", {"class": "card ng-star-inserted"}),
         )
-    )[::4]
+    )
 
     print(f"========= FOUND {len(estate_links)} ESTATES")
 
@@ -69,12 +69,16 @@ def extract_estates_from_soup(page_soup):
         print("GETTING INFO ON", estate_data["source_id"])
         estate_info_html = get_estate_page_soup(
             link,
-            xpath="/html/body/lps-root/lps-product-layout/nav-layout-default/lps-product/div[1]/div[1]/div[1]/div",
+            xpath="/html/body/lps-root/lps-product-layout/nav-layout-default/lps-product"
         )
 
         estate_data["address"] = estate_info_html.find(
             "lps-product-address"
         ).div.p.string
+
+        estate_data["image"] = estate_info_html.find(
+            "img", {"class": "carousel-fluid__image ng-star-inserted ng-lazyloaded"}
+        )['src']
 
         estate_data["price"] = float(
             "".join(

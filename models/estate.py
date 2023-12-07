@@ -21,6 +21,7 @@ class Estate(Base):
     timestamp = Column(String(256))
     total_area = Column("total area", BigInteger(), nullable=True)
     estates_ind_id = Column(Integer, ForeignKey("estates_ind.id"))
+    img = Column(String(255), nullable=True)
     estates_ind = relationship("EstatesInd")
 
     # Transforma no formato correto para visualização externa

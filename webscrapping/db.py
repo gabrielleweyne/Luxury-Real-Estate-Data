@@ -37,6 +37,7 @@ def save_to_db(estates_df, create_csv=True):
             source_id=estate_dict["source_id"],
             timestamp=estate_dict["timestamp"],
             total_area=estate_dict["total area"],
+            img=estate_dict["image"],
             estates_ind_id=estates_ind.id,
         )
         session.add(estate)

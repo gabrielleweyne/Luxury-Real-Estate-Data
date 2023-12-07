@@ -13,7 +13,7 @@ def webscrapping(estates_df):
 
     # print(soup)
     
-    links = soup.find_all('a', {'class':'property-card__content-link js-card-title'}) # pegar todos os links quebrados que possuem essa classe
+    links = soup.find_all('a', {'class':'property-card__content-link js-card-title'})# pegar todos os links quebrados que possuem essa classe
     
     # print(links)
     
@@ -78,6 +78,8 @@ def webscrapping(estates_df):
         endereco = dados.find('p', {'class':"title__address js-address"}).string
         dicionario_dados['address'] = endereco
         print(endereco)
+
+        dicionario_dados['src'] = dados.find('img', {'class': 'carousel__image js-carousel-image lazyload'})['src']
         
         estates.append(dicionario_dados)
         
@@ -120,7 +122,7 @@ def webscrapping(estates_df):
             if price == "":
                 dicionario_dados['price'] = None
             else:
-                 dicionario_dados['price'] = float(price)
+                dicionario_dados['price'] = float(price)
             print(price)
     
             area = dados.find('li', {'class':"features__item features__item--area js-area"}).string
@@ -146,7 +148,9 @@ def webscrapping(estates_df):
             endereco = dados.find('p', {'class':"title__address js-address"}).string
             dicionario_dados['address'] = endereco
             print(endereco)
-        
+
+            dicionario_dados['src'] = dados.find('img', {'class': 'carousel__image js-carousel-image lazyload'})['src']
+
             estates.append(dicionario_dados)
         
         tabela.join(pd.DataFrame(estates))
