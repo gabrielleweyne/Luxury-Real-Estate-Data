@@ -15,7 +15,8 @@ estate_keys = [
     "source_id",
     "timestamp",
     "total_area",
-    "estate_ind_id",
+    "estates_ind_id",
+    "favourited",
     "img"
 ]
 
@@ -23,6 +24,7 @@ estate_keys = [
 def validate_estates_format(estates_json):
     for e in estates_json:
         for k in dict.keys(e):
+            print("checking key", k, k in estate_keys)
             if k not in estate_keys:
                 return False
     return True

@@ -65,7 +65,9 @@ def validate_page(req: Request, email: str = Form(), password: str = Form()):
 
 
 @browser_routes.get("/estates", response_class=HTMLResponse)
-def estates_page(req: Request, login: Union[str, None] = Cookie(default=None), favourited=False):
+def estates_page(
+    req: Request, login: Union[str, None] = Cookie(default=None), favourited=False
+):
     user = session.query(User).filter_by(id=login).first()
     if not user:
         return RedirectResponse("/login")
@@ -79,7 +81,21 @@ def estates_page(req: Request, login: Union[str, None] = Cookie(default=None), f
 
     # subquery para pegar o imóvel correspondente da leitura mais recente
     get_recent_estates = (
-        session.query(Estate)
+        session.query(
+            Estate.address,
+            Estate.dorms,
+            Estate.lat,
+            Estate.lng,
+            Estate.parking,
+            Estate.price,
+            Estate.toilets,
+            Estate.source,
+            Estate.source_id,
+            Estate.timestamp,
+            Estate.total_area,
+            Estate.estates_ind_id,
+            Estate.img,
+        )
         .join(
             most_recent_reading,
             and_(
@@ -116,7 +132,7 @@ def estates_page(req: Request, login: Union[str, None] = Cookie(default=None), f
     chunks = []
 
     for i in range(1, len(estates) + 1, 3):
-        chunks.append(estates[(i-1):(i+2)])
+        chunks.append(estates[(i - 1) : (i + 2)])
 
     return templates.TemplateResponse(
         "home.html",

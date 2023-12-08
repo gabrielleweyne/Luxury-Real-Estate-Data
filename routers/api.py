@@ -85,7 +85,21 @@ def list_estates(
 
     # subquery para pegar o imóvel correspondente da leitura mais recente
     get_recent_estates = (
-        session.query(Estate)
+        session.query(
+            Estate.address,
+            Estate.dorms,
+            Estate.lat,
+            Estate.lng,
+            Estate.parking,
+            Estate.price,
+            Estate.toilets,
+            Estate.source,
+            Estate.source_id,
+            Estate.timestamp,
+            Estate.total_area,
+            Estate.estates_ind_id,
+            Estate.img,
+        )
         .join(
             most_recent_reading,
             and_(
