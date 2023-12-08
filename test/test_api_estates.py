@@ -16,6 +16,7 @@ estate_keys = [
     "timestamp",
     "total_area",
     "estate_ind_id",
+    "img"
 ]
 
 
