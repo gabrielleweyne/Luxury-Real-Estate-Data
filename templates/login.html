@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='/login.css') }}">
+    
+    <title>Login</title>
+</head>
+<body>
+   
+    <h1 class="titulo" >MERCADO IMOBILIÁRIO DE LUXO</h1>
+
+    <div class="area-login">
+        <div class="login">
+            <div>
+                <img src="static/images/logo_iggpl_luxury.jpg" >
+            </div>
+
+            {% if create_user %}
+            <form action="new-user" method="POST">
+            {% else %}
+            <form action="validate" method="POST">
+            {% endif%}
+                {% if create_user %}
+                <input type="text" name="name" placeholder="Nome" required>
+                {% endif%}
+                <input type="text" name="email" placeholder="E-mail" required>
+                <input type="password" name="password" placeholder="Senha" required>
+                {% if create_user %}
+                <input type="submit" value="criar">
+                {% else %}
+                <input type="submit" value="entrar">
+                {% endif%}
+            </form>
+            {% if create_user %}
+            <p>Já criou uma conta?<a href="/">Faça login</a></p>
+            {% else %}
+            <p>Ainda não tem uma conta?<a href="/create-user">Criar conta</a></p>
+            {% endif%}
+        </div>
+    </div>
+</body>
+
+</html>
