@@ -2,7 +2,6 @@ from fastapi import APIRouter, Cookie
 from fastapi.responses import JSONResponse
 from sqlalchemy import and_, func
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import joinedload
 from typing import Union
 from models import session
 from models.user import User
