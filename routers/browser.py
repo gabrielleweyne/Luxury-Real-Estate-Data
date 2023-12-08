@@ -143,3 +143,22 @@ def estates_page(
             "estates_chunks": chunks,
         },
     )
+
+@browser_routes.get("/estates/{estate_ind_id}", response_class=HTMLResponse)
+def estate_detail_page(req: Request, estate_ind_id: int, login: Union[str, None] = Cookie(default=None), favourited=False):
+    user = session.query(User).filter_by(id=login).first()
+    if not user:
+        return RedirectResponse("/login")
+
+    estate_ind = session.query(EstatesInd).filter_by(id=estate_ind_id).first()
+
+    return templates.TemplateResponse(
+        "estate.html",
+        {
+            "request": req,
+            "title": "PROTECTED",
+            "user": user.to_view(),
+            "estates_ind": estate_ind,
+            "estates": list(map(lambda e: e.to_view(), estate_ind.estates)),
+        },
+    )
