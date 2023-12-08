@@ -2,6 +2,7 @@ from fastapi import APIRouter, Cookie
 from fastapi.responses import JSONResponse
 from sqlalchemy import and_, func
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import joinedload
 from typing import Union
 from models import session
 from models.user import User
@@ -47,6 +48,7 @@ def login_user(email: str, password: str):
     resp.set_cookie(key="login", value=user.id)
     return resp
 
+
 @api_routes.get("/users/me")
 def logged_user(login: Union[str, None] = Cookie(default=None)):
     user = session.query(User).filter_by(id=login).first()
@@ -76,30 +78,52 @@ def list_estates(
         return JSONResponse({"message": "ACCESS FORBIDEN"}, 403)
 
     # subquery para pegar a leitura mais recente dos imóveis
-    subquery = (
+    most_recent_reading = (
         session.query(Estate.source_id, func.max(Estate.timestamp).label("timestamp"))
         .group_by(Estate.source_id)
         .subquery()
     )
 
-    # query para pegar os imóveis da subquery
-    get_estates_query = session.query(Estate).join(
-        subquery,
-        and_(
-            subquery.c.source_id == Estate.source_id,
-            subquery.c.timestamp == Estate.timestamp,
-        ),
+    # subquery para pegar o imóvel correspondente da leitura mais recente
+    get_recent_estates = (
+        session.query(Estate)
+        .join(
+            most_recent_reading,
+            and_(
+                most_recent_reading.c.source_id == Estate.source_id,
+                most_recent_reading.c.timestamp == Estate.timestamp,
+            ),
+        )
+        .subquery()
+    )
+
+    # adiciona informação se o imóvel já foi favoritado pelo usuário
+    get_estates_query = (
+        session.query(
+            EstatesInd.id.label("estates_ind_id"),
+            Favourite.favourited.label("favourited"),
+            get_recent_estates,
+        )
+        .join(
+            get_recent_estates, get_recent_estates.c.source_id == EstatesInd.source_id
+        )
+        .join(
+            Favourite,
+            and_(Favourite.estates_ind_id == EstatesInd.id, Favourite.user_id == login),
+            isouter=True,
+        )
     )
 
     if favourited:
-        get_estates_query = (
-            get_estates_query.join(EstatesInd).join(Favourite).filter_by(favourited=1)
-        )
+        get_estates_query = get_estates_query.filter(Favourite.favourited == 1)
 
+    # liste os imóveis
     estates = get_estates_query.all()
 
+    output_view = list(map(lambda r: dict(r._mapping), estates))
+
     # responder os imóveis listados
-    return JSONResponse(list(map(lambda e: e.to_view(), estates)))
+    return JSONResponse(output_view)
 
 
 @api_routes.get("/estates/{estate_ind_id}")
@@ -114,12 +138,14 @@ def get_estate(estate_ind_id: int, login: Union[str, None] = Cookie(default=None
     if estate_ind == None:
         return JSONResponse({"message": "ESTATE NOT FOUND"}, 400)
 
-    return JSONResponse({"estateData": list(map(lambda e: e.to_view(), estate_ind.estates))})
+    return JSONResponse(
+        {"estateData": list(map(lambda e: e.to_view(), estate_ind.estates))}
+    )
 
 
 @api_routes.post("/favourite")
 def favourite_estate(
-    estate_ind_id: str,
+    estate_ind_id: int,
     favourited: bool,
     login: Union[str, None] = Cookie(default=None),
 ):
@@ -129,7 +155,9 @@ def favourite_estate(
         return JSONResponse({"message": "ACCESS FORBIDEN"}, 403)
 
     favourite = (
-        session.query(Favourite).filter_by(user_id=login and estate_ind_id).first()
+        session.query(Favourite)
+        .filter_by(user_id=login, estates_ind_id=estate_ind_id)
+        .first()
     )
 
     try:
