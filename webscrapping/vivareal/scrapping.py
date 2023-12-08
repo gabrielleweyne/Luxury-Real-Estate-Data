@@ -79,7 +79,9 @@ def webscrapping(estates_df):
         dicionario_dados['address'] = endereco
         print(endereco)
 
-        dicionario_dados['src'] = dados.find('img', {'class': 'carousel__image js-carousel-image lazyload'})['src']
+        imagem =  dados.find('img', {'class': 'carousel__image js-carousel-image lazyload'})
+        if imagem != None:
+            dicionario_dados['image'] = imagem['data-src']
         
         estates.append(dicionario_dados)
         
@@ -87,7 +89,7 @@ def webscrapping(estates_df):
         
     print(tabela)
     
-    for pagina in range(2, 21):
+    for pagina in range(2, 11):
     
         estates = []
     
@@ -149,10 +151,12 @@ def webscrapping(estates_df):
             dicionario_dados['address'] = endereco
             print(endereco)
 
-            dicionario_dados['src'] = dados.find('img', {'class': 'carousel__image js-carousel-image lazyload'})['src']
+            imagem =  dados.find('img', {'class': 'carousel__image js-carousel-image lazyload'})
+            if imagem != None:
+                dicionario_dados['image'] = imagem['data-src']
 
             estates.append(dicionario_dados)
         
-        tabela.join(pd.DataFrame(estates))
+        tabela.merge(pd.DataFrame(estates))
         
     return pd.concat([estates_df, tabela])
