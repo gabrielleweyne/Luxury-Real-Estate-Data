@@ -162,3 +162,16 @@ def estate_detail_page(req: Request, estate_ind_id: int, login: Union[str, None]
             "estates": list(map(lambda e: e.to_view(), estate_ind.estates)),
         },
     )
+
+@browser_routes.get("/about", response_class=HTMLResponse)
+def estate_detail_page(req: Request):
+    # user = session.query(User).filter_by(id=login).first()
+    # if not user:
+    #     return RedirectResponse("/login")
+
+    return templates.TemplateResponse(
+        "sobre.html",
+        {
+            "request": req
+        },
+    )
