@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+	background: linear-gradient(180deg, #00171C 0%, #252F31 28.99%, #333839 54.17%, #1F2B2E 71.54%, #00171C 100%);
+    background-color: gray;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+.menu{
+    background-color: white;
+    position: fixed;
+    width: 100%
+}
+
+.form-control{
+    border-radius: 20px; /* ou qualquer valor que você preferir */ 
+    color: rgb(167, 165, 165);
+}
+
+.btn {
+    width: 38px; /* Defina o tamanho desejado para o botão */
+    height: 38px;
+    border-radius: 50%; /* Faz com que as bordas sejam totalmente redondas */
+    overflow: hidden; /* Garante que a imagem não ultrapasse as bordas arredondadas */
+    background-color: rgb(244, 243, 243); /* Cor de fundo do botão (pode ser ajustada conforme necessário) */
+    border: none; /* Remove a borda padrão do botão */
+    cursor: pointer; /* Adiciona o cursor de ponteiro ao passar o mouse sobre o botão */
+    outline: none;
+}
+
+.btn:hover{
+	background: rgb(169, 169, 169);
+}
+
+h1{
+    color: black;
+    text-align: center;
+    margin: 0%;
+    font-family: Be Vietnam Pro;
+    font-size: 45px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 20px;
+}
+
+.fundo-principal {
+	padding-top: 5rem;
+	padding-bottom: 5rem;
+}
+
+.limitador {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+.perfil{
+    padding: 40px;
+    padding-left: 285px;
+    justify-content: center;
+}
+
+.card-deck{
+    padding-top: 50px;
+}
+
+.link-container {
+    display: flex;
+    justify-content: center;
+}
+
+.remover {
+    color: white;
+    text-decoration: none; /* Remove sublinhado do link */
+    margin-right: 10px;
+}
+
+.ir-para-site {
+    color: #3498db; /* Cor azul para o link "Ir para o site" */
+    text-decoration: none; /* Remove sublinhado do link */
+}
+
+.card-footer{
+    background-color: black;
+}
+
