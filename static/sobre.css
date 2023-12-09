@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Almarai', sans-serif;
 	background: linear-gradient(180deg, #00171C 0%, #252F31 28.99%, #333839 54.17%, #1F2B2E 71.54%, #00171C 100%);
     background-color: gray;
 	background-size: 100% 100%;
@@ -37,7 +37,7 @@ h1{
     color: black;
     text-align: center;
     margin: 0%;
-    font-family: Be Vietnam Pro;
+    font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 45px;
     font-weight: 400;
     padding: 10px;
@@ -50,26 +50,65 @@ h1{
 	padding-bottom: 5rem;
 }
 
+table, th, td {
+    border: none;
+    border-collapse: collapse;
+  }
+
 .limitador {
 	max-width: 1000px;
 	margin: 0 auto;
     text-align: center;
     align-items: center;
-    padding: 40px ;
+    padding: 20px ;
 }
 
 h2{
     color: white;
+    font-family: 'Anek Gurmukhi', sans-serif;
+}
+
+h3{
+    color: white;
+}
+
+h4{
+    color: white;
+}
+
+.lista{
+    color: white !important;
+    text-align: center;
+    margin: 0%;
+    font-family: 'Almarai', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.describelist{
+    color: white !important;
+    text-align: center;
+    margin: 0%;
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 30px;
 }
 
 p{
     color: white;
+    font-family: 'Anek Gurmukhi', sans-serif;
     font-size: 20px;
     text-align: justify;
 }
 
 .paragrafo{
-    padding: 40px;
+    padding: 0px;
 }
 
 .quemsomos{
