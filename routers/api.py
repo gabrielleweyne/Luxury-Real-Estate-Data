@@ -8,6 +8,7 @@ from models.user import User
 from models.estate import Estate
 from models.favourite import Favourite
 from models.estates_ind import EstatesInd
+from controllers import estates as estates_controller
 
 
 api_routes = APIRouter(prefix="/api")
@@ -76,64 +77,7 @@ def list_estates(
     if not user:
         return JSONResponse({"message": "ACCESS FORBIDEN"}, 403)
 
-    # subquery para pegar a leitura mais recente dos imóveis
-    most_recent_reading = (
-        session.query(Estate.source_id, func.max(Estate.timestamp).label("timestamp"))
-        .group_by(Estate.source_id)
-        .subquery()
-    )
-
-    # subquery para pegar o imóvel correspondente da leitura mais recente
-    get_recent_estates = (
-        session.query(
-            Estate.address,
-            Estate.dorms,
-            Estate.lat,
-            Estate.lng,
-            Estate.parking,
-            Estate.price,
-            Estate.toilets,
-            Estate.source,
-            Estate.source_id,
-            Estate.timestamp,
-            Estate.total_area,
-            Estate.estates_ind_id,
-            Estate.img,
-        )
-        .join(
-            most_recent_reading,
-            and_(
-                most_recent_reading.c.source_id == Estate.source_id,
-                most_recent_reading.c.timestamp == Estate.timestamp,
-            ),
-        )
-        .subquery()
-    )
-
-    # adiciona informação se o imóvel já foi favoritado pelo usuário
-    get_estates_query = (
-        session.query(
-            EstatesInd.id.label("estates_ind_id"),
-            Favourite.favourited.label("favourited"),
-            get_recent_estates,
-        )
-        .join(
-            get_recent_estates, get_recent_estates.c.source_id == EstatesInd.source_id
-        )
-        .join(
-            Favourite,
-            and_(Favourite.estates_ind_id == EstatesInd.id, Favourite.user_id == login),
-            isouter=True,
-        )
-    )
-
-    if favourited:
-        get_estates_query = get_estates_query.filter(Favourite.favourited == 1)
-
-    # liste os imóveis
-    estates = get_estates_query.all()
-
-    output_view = list(map(lambda r: dict(r._mapping), estates))
+    output_view = estates_controller.list(favourited)
 
     # responder os imóveis listados
     return JSONResponse(output_view)

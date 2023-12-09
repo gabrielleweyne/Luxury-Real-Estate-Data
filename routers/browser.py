@@ -3,12 +3,10 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from typing import Union
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import and_, func
 from models import session
 from models.user import User
-from models.estate import Estate
-from models.favourite import Favourite
 from models.estates_ind import EstatesInd
+from controllers import estates as estates_controller
 
 templates = Jinja2Templates(directory="templates")
 
@@ -55,7 +53,7 @@ def create_user_page(
 
 @browser_routes.post("/validate", response_class=HTMLResponse)
 def validate_page(req: Request, email: str = Form(), password: str = Form()):
-    user = session.query(User).filter_by(email=email).first()
+    user = session.query(User).filter(User.email == email).first()
     if not user or user.password != password:
         return RedirectResponse("/login", 303)
 
@@ -72,62 +70,7 @@ def estates_page(
     if not user:
         return RedirectResponse("/login")
 
-    # subquery para pegar a leitura mais recente dos imóveis
-    most_recent_reading = (
-        session.query(Estate.source_id, func.max(Estate.timestamp).label("timestamp"))
-        .group_by(Estate.source_id)
-        .subquery()
-    )
-
-    # subquery para pegar o imóvel correspondente da leitura mais recente
-    get_recent_estates = (
-        session.query(
-            Estate.address,
-            Estate.dorms,
-            Estate.lat,
-            Estate.lng,
-            Estate.parking,
-            Estate.price,
-            Estate.toilets,
-            Estate.source,
-            Estate.source_id,
-            Estate.timestamp,
-            Estate.total_area,
-            Estate.estates_ind_id,
-            Estate.img,
-        )
-        .join(
-            most_recent_reading,
-            and_(
-                most_recent_reading.c.source_id == Estate.source_id,
-                most_recent_reading.c.timestamp == Estate.timestamp,
-            ),
-        )
-        .subquery()
-    )
-
-    # adiciona informação se o imóvel já foi favoritado pelo usuário
-    get_estates_query = (
-        session.query(
-            EstatesInd.id.label("estates_ind_id"),
-            Favourite.favourited.label("favourited"),
-            get_recent_estates,
-        )
-        .join(
-            get_recent_estates, get_recent_estates.c.source_id == EstatesInd.source_id
-        )
-        .join(
-            Favourite,
-            and_(Favourite.estates_ind_id == EstatesInd.id, Favourite.user_id == login),
-            isouter=True,
-        )
-    )
-
-    if favourited:
-        get_estates_query = get_estates_query.filter(Favourite.favourited == 1)
-
-    # liste os imóveis
-    estates = list(map(lambda r: dict(r._mapping), get_estates_query.all()))
+    estates = estates_controller.list(login, favourited)
 
     chunks = []
 
@@ -144,8 +87,11 @@ def estates_page(
         },
     )
 
+
 @browser_routes.get("/estates/{estate_ind_id}", response_class=HTMLResponse)
-def estate_detail_page(req: Request, estate_ind_id: int, login: Union[str, None] = Cookie(default=None), favourited=False):
+def estate_detail_page(
+    req: Request, estate_ind_id: int, login: Union[str, None] = Cookie(default=None)
+):
     user = session.query(User).filter_by(id=login).first()
     if not user:
         return RedirectResponse("/login")
@@ -163,6 +109,7 @@ def estate_detail_page(req: Request, estate_ind_id: int, login: Union[str, None]
         },
     )
 
+
 @browser_routes.get("/about", response_class=HTMLResponse)
 def estate_detail_page(req: Request):
     # user = session.query(User).filter_by(id=login).first()
@@ -171,7 +118,13 @@ def estate_detail_page(req: Request):
 
     return templates.TemplateResponse(
         "sobre.html",
-        {
-            "request": req
-        },
+        {"request": req},
+    )
+
+
+@browser_routes.get("/heat-map", response_class=HTMLResponse)
+def estate_detail_page(req: Request):
+    return templates.TemplateResponse(
+        "heat_map.html",
+        {"request": req, "estates": estates_controller.list()},
     )
