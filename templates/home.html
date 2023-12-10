@@ -24,7 +24,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-white">
         <a class="navbar-brand" href="#">
-            <img style="max-width: 100px" src="{{ url_for('static', path='/images/logo_iggpl_luxury.css') }}" />
+            <img style="max-width: 100px;" src="{{ url_for('static', path='images/logo_iggpl_luxury.jpg') }}" />
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,10 +101,10 @@
                     <div class="card-body">
                         <h5 class="card-title"><a href="/estates/{{estate.estates_ind_id}}">{{estate.type.title() if estate.type != None else None}}, {{estate.district.title() if estate.district != None else None}}</a></h5>
                         <p class="card-text">
-                            Endereço: R$ {{estate.price}}
+                            Preço: R$ {{estate.price}}
                          </p>
                         <p class="card-text">
-                           Preço: R$ {{estate.address}}
+							Endereço: {{estate.address}}
                         </p>
                         <p class="card-text">
                             Quartos:{% if estate.dorms == None %}

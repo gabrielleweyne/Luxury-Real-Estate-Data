@@ -126,10 +126,10 @@ def estate_detail_page(req: Request, login: Union[str, None] = Cookie(default=No
     user = session.query(User).filter_by(id=login).first()
     if not user:
         return RedirectResponse("/login")
-
+    estates = estates_controller.list(favourited=True)
     return templates.TemplateResponse(
         "perfil.html",
-        {"request": req, "user":user, "estates": estates_controller.list(favourited=True)}
+        {"request": req, "user":user, "estates": estates, "estates_length": len(estates)}
     )
 
 @browser_routes.get("/heat-map", response_class=HTMLResponse)

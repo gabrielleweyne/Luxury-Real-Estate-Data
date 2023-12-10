@@ -66,29 +66,58 @@
   						<div class="column right">
    							<h3 class="lista">Gabrielle Weyne Pedrosa</h3>
     						<p class="describelist">Conta administrativa</p>
-							<p class="describelist">2 Imóveis salvos</p>
+							<p class="describelist">{{estates_length}} Imóveis salvos</p>
   						</div>
 					</div>
 	
 				<div class="card-deck">
 					<div class="card">
-						<img class="card-img-top" src="imagem/imovel1.jpeg" alt="Imagem de capa do card" />
-						<div class="card-body">
-							<h5 class="card-title">Título do card</h5>
-							<p class="card-text">
-								Este é um card maior com suporte a texto embaixo, que funciona como uma introdução a um
-								conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.
-							</p>
-						</div>
-						<div class="card-footer">
-							<small class="text-muted">
-								<div class="link-container">
-									<a href="#" class="remover">Remover</a>
-									<span>|</span>
-									<a href="#" class="ir-para-site">Ir para o site</a>
-								</div>
-							</small>
-						</div>
+            <!-- Linha de imóvel -->
+            <div class="card-deck">
+                {% for estate in estates %}
+                <!-- Imóvel -->
+                <div class="card">
+                    <img class="card-img-top" src="{{estate.img if estate.img != None else url_for('static', path='/images/blocked.png') }}" alt="Imagem de capa do card" />
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/estates/{{estate.estates_ind_id}}">{{estate.type.title() if estate.type != None else None}}, {{estate.district.title() if estate.district != None else None}}</a></h5>
+                        <p class="card-text">
+                            Preço: R$ {{estate.price}}
+                         </p>
+                        <p class="card-text">
+							Endereço: {{estate.address}}
+                        </p>
+                        <p class="card-text">
+                            Quartos:{% if estate.dorms == None %}
+                           0
+                        {% else %}
+                          {{estate.dorms}}
+                        {% endif %}
+                        </p>
+                        <p class="card-text">
+                            Banheiros:{% if estate.toilets == None %}
+                           0
+                        {% else %}
+                          {{estate.toilets}}
+                        {% endif %}
+                        </p>
+                        <p class="card-text">
+                            Vagas:{% if estate.parking == None %}
+                           0
+                        {% else %}
+                          {{estate.parking}}
+                        {% endif %}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        {% if estate.favourited == 1 %}
+                            <small class="text-muted">Favoritado!</small>
+                        {% else %}
+                            <small class="text-muted">Pode favoritar!</small>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
 					</div>
 			</div>
 	</div>	
