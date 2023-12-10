@@ -122,7 +122,7 @@ def favourite_estate(
             favourite = Favourite(
                 user_id=user.id,
                 estates_ind_id=estate_ind_id,
-                favourited=1 if favourite else 0,
+                favourited=1 if favourited else 0,
             )
 
             session.add(favourite)
