@@ -29,6 +29,8 @@ def list(user_id: int = None, favourited=False):
             Estate.total_area,
             Estate.estates_ind_id,
             Estate.img,
+            Estate.type,
+            Estate.district
         )
         .join(
             most_recent_reading,

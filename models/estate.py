@@ -23,11 +23,15 @@ class Estate(Base):
     estates_ind_id = Column(Integer, ForeignKey("estates_ind.id"))
     img = Column(String(255), nullable=True)
     estates_ind = relationship("EstatesInd")
+    type = Column(String(255))
+    district = Column(String(255))
 
     # Transforma no formato correto para visualização externa
     def to_view(self):
         return {
             "address": self.address,
+            "district": self.district,
+            "type": self.type,
             "dorms": self.dorms,
             "lat": self.lat,
             "lng": self.lng,

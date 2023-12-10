@@ -70,7 +70,7 @@ def estates_page(
     if not user:
         return RedirectResponse("/login")
 
-    estates = estates_controller.list(login, favourited)
+    estates = estates_controller.list(favourited=favourited)
 
     chunks = []
 
