@@ -18,7 +18,34 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function favourite(user_id, estates_ind_id) {
+            let btn = document.getElementById(`btn-${estates_ind_id}`)
+            
+            let favourited = btn.classList.contains("btn-primary")
+            
+            // console.log({user_id, estates_ind_id, favourited})
 
+            let response = await fetch(`/api/favourite?estate_ind_id=${estates_ind_id}&favourited=${favourited}`, {
+                method: "post",
+                credentials: "include"
+            })
+
+            if (!response.ok) throw new Error("FAVOURITE RESPONSE ERROR")
+
+            if (favourited) {
+                btn.classList.remove("btn-primary")
+                btn.classList.add("btn-danger")
+                btn.textContent = "Desfavoritar"
+            } else {
+                btn.classList.remove("btn-danger")
+                btn.classList.add("btn-primary")
+                btn.textContent = "Favoritar"
+            }
+
+            // console.log(response)
+        }
+    </script>
 </head>
 
 <body>
@@ -130,9 +157,19 @@
                     </div>
                     <div class="card-footer">
                         {% if estate.favourited == 1 %}
-                            <small class="text-muted">Favoritado!</small>
+                            <button 
+                                type="button" 
+                                class="btn btn-danger" 
+                                id="btn-{{estate.estates_ind_id}}"
+                                onclick="favourite({{user.id}}, {{estate.estates_ind_id}})">
+                                Desfavoritar</button>
                         {% else %}
-                            <small class="text-muted">Pode favoritar!</small>
+                            <button 
+                                type="button" 
+                                class="btn btn-primary" 
+                                id="btn-{{estate.estates_ind_id}}"
+                                onclick="favourite({{user.id}}, {{estate.estates_ind_id}})">
+                                Favoritar</button>
                         {% endif %}
                     </div>
                 </div>
