@@ -12,8 +12,7 @@ def webscrapping():
 
     estates_data = extract_estates_from_soup(soup)
 
-    # for page in tqdm(range(2, max_page + 1)):
-    for page in range(2, 2):
+    for page in range(2, max_page + 1):
         print(f"========= EXTRACTING ESTATES: PAGE {page} OF {max_page} =========")
         estates_data.append(
             extract_estates_from_soup(get_estate_page_soup(get_lopes_listing_url(page)))

@@ -64,7 +64,7 @@ def extract_estates_from_soup(page_soup):
 
     # Extrair os dados dos imóveis das suas respectivas páginas de detalhe
     for link in estate_links:
-        estate_data = {"source_id": link.split("/")[4], "source": "lopes"}
+        estate_data = {"source_id": "/".join(link.split("/")[4:6]), "source": "lopes"}
 
         print("GETTING INFO ON", estate_data["source_id"])
         estate_info_html = get_estate_page_soup(
