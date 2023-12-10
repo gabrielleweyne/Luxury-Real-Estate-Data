@@ -38,7 +38,7 @@ h1{
     text-align: center;
     margin: 0%;
     font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: 45px;
+    font-size: 50px;
     font-weight: 400;
     padding: 10px;
     padding-top: 0px;
@@ -108,7 +108,7 @@ p{
 }
 
 .paragrafo{
-    padding: 0px;
+    padding: 10px;
 }
 
 .quemsomos{

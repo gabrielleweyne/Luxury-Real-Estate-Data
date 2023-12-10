@@ -38,7 +38,7 @@ h1{
     text-align: center;
     margin: 0%;
     font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: 45px;
+    font-size: 50px;
     font-weight: 400;
     padding: 10px;
     padding-top: 0px;
@@ -59,6 +59,48 @@ h1{
     padding: 40px;
     padding-left: 285px;
     justify-content: center;
+}
+
+.row {
+    flex-wrap: wrap;
+    margin-right: 160px;
+    margin-left: 160px;
+  }
+  
+  .column {
+    float: left;
+  }
+  
+  .left {
+    width: 26%;
+  }
+  
+  .right {
+    width: 74%;
+  }
+
+  .lista{
+    color: white !important;
+    text-align: left;
+    margin: 0%;
+    font-family: 'Almarai', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.describelist{
+    color: white !important;
+    text-align: left;
+    margin: 0%;
+    font-family: 'Almarai', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 10px;
 }
 
 .card-deck{
