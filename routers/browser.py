@@ -64,13 +64,26 @@ def validate_page(req: Request, email: str = Form(), password: str = Form()):
 
 @browser_routes.get("/estates", response_class=HTMLResponse)
 def estates_page(
-    req: Request, login: Union[str, None] = Cookie(default=None), favourited=False
+    req: Request,
+    login: Union[str, None] = Cookie(default=None),
+    favourited=False,
+    max_area: Union[float, None] = None,
+    min_area: Union[float, None] = None,
+    max_price: Union[float, None] = None,
+    min_price: Union[float, None] = None,
 ):
     user = session.query(User).filter_by(id=login).first()
     if not user:
         return RedirectResponse("/login")
 
-    estates = estates_controller.list(favourited=favourited)
+    estates = estates_controller.list(
+        None,
+        favourited,
+        max_price,
+        min_price,
+        max_area,
+        min_area,
+    )
 
     chunks = []
 
@@ -84,6 +97,8 @@ def estates_page(
             "title": "PROTECTED",
             "user": user.to_view(),
             "estates_chunks": chunks,
+            "price_range": estates_controller.get_price_range(),
+            "area_range": estates_controller.get_area_range(),
         },
     )
 
@@ -121,6 +136,7 @@ def estate_detail_page(req: Request):
         {"request": req},
     )
 
+
 @browser_routes.get("/profile", response_class=HTMLResponse)
 def estate_detail_page(req: Request, login: Union[str, None] = Cookie(default=None)):
     user = session.query(User).filter_by(id=login).first()
@@ -129,8 +145,14 @@ def estate_detail_page(req: Request, login: Union[str, None] = Cookie(default=No
     estates = estates_controller.list(favourited=True)
     return templates.TemplateResponse(
         "perfil.html",
-        {"request": req, "user":user, "estates": estates, "estates_length": len(estates)}
+        {
+            "request": req,
+            "user": user,
+            "estates": estates,
+            "estates_length": len(estates),
+        },
     )
+
 
 @browser_routes.get("/heat-map", response_class=HTMLResponse)
 def estate_detail_page(req: Request):

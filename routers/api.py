@@ -70,14 +70,26 @@ def logged_user(login: Union[str, None] = Cookie(default=None)):
 # listagem de imóveis
 @api_routes.get("/estates")
 def list_estates(
-    favourited: bool = False, login: Union[str, None] = Cookie(default=None)
+    login: Union[str, None] = Cookie(default=None),
+    favourited: bool = False,
+    max_area: Union[float, None] = None,
+    min_area: Union[float, None] = None,
+    max_price: Union[float, None] = None,
+    min_price: Union[float, None] = None,
 ):
     # Validar se o usuário está logado
     user = session.query(User).filter_by(id=login).first()
     if not user:
         return JSONResponse({"message": "ACCESS FORBIDEN"}, 403)
 
-    output_view = estates_controller.list(favourited)
+    output_view = estates_controller.list(
+        login,
+        favourited,
+        max_price,
+        min_price,
+        max_area,
+        min_area,
+    )
 
     # responder os imóveis listados
     return JSONResponse(output_view)

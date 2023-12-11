@@ -5,7 +5,36 @@ from models.favourite import Favourite
 from models.estates_ind import EstatesInd
 
 
-def list(user_id: int = None, favourited=False):
+def get_price_range():
+    return (
+        session.query(
+            func.max(Estate.price).label("max"),
+            func.min(Estate.price).label("min"),
+        )
+        .first()
+        ._mapping
+    )
+
+
+def get_area_range():
+    return (
+        session.query(
+            func.max(Estate.total_area).label("max"),
+            func.min(Estate.total_area).label("min"),
+        )
+        .first()
+        ._mapping
+    )
+
+
+def list(
+    user_id: int = None,
+    favourited=False,
+    max_price=None,
+    min_price=None,
+    max_area=None,
+    min_area=None,
+):
     # subquery para pegar a leitura mais recente dos imóveis
     most_recent_reading = (
         session.query(Estate.source_id, func.max(Estate.timestamp).label("timestamp"))
@@ -30,7 +59,7 @@ def list(user_id: int = None, favourited=False):
             Estate.estates_ind_id,
             Estate.img,
             Estate.type,
-            Estate.district
+            Estate.district,
         )
         .join(
             most_recent_reading,
@@ -54,9 +83,7 @@ def list(user_id: int = None, favourited=False):
         )
         .join(
             Favourite,
-            and_(
-                Favourite.estates_ind_id == EstatesInd.id
-            ),
+            and_(Favourite.estates_ind_id == EstatesInd.id),
             isouter=True,
         )
     )
@@ -66,9 +93,21 @@ def list(user_id: int = None, favourited=False):
 
     if favourited:
         get_estates_query = get_estates_query.filter(Favourite.favourited == 1)
-    
+
+    if max_area != None:
+        get_estates_query = get_estates_query.filter(get_recent_estates.c.total_area <= max_area)
+
+    if min_area != None:
+        get_estates_query = get_estates_query.filter(get_recent_estates.c.total_area >= min_area)
+
+    if max_price != None:
+        get_estates_query = get_estates_query.filter(get_recent_estates.c.price <= max_price)
+
+    if min_price != None:
+        get_estates_query = get_estates_query.filter(get_recent_estates.c.price >= min_price)
+
     estates = []
-    
+
     for r in get_estates_query.all():
         estates.append(dict(r._mapping))
 
