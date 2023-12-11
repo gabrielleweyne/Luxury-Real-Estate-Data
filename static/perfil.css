@@ -63,8 +63,6 @@ h1{
 
 .row {
     flex-wrap: wrap;
-    margin-right: 160px;
-    margin-left: 160px;
   }
   
   
@@ -120,7 +118,6 @@ h1{
 
 .card{
     background-color:#00171C;
-    width: 850px;
 }
 
 .link-container {
