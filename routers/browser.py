@@ -77,7 +77,7 @@ def estates_page(
         return RedirectResponse("/login")
 
     estates = estates_controller.list(
-        None,
+        login,
         favourited,
         max_price,
         min_price,
@@ -142,7 +142,7 @@ def estate_detail_page(req: Request, login: Union[str, None] = Cookie(default=No
     user = session.query(User).filter_by(id=login).first()
     if not user:
         return RedirectResponse("/login")
-    estates = estates_controller.list(favourited=True)
+    estates = estates_controller.list(user_id=login, favourited=True)
     return templates.TemplateResponse(
         "perfil.html",
         {

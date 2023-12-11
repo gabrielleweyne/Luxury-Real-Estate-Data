@@ -1,4 +1,4 @@
-from sqlalchemy import and_, func
+from sqlalchemy import and_, or_, func
 from models import session
 from models.estate import Estate
 from models.favourite import Favourite
@@ -76,6 +76,7 @@ def list(
         session.query(
             EstatesInd.id.label("estates_ind_id"),
             Favourite.favourited.label("favourited"),
+            Favourite.user_id.label("favourited_user_id"),
             get_recent_estates,
         )
         .join(
@@ -86,25 +87,33 @@ def list(
             and_(Favourite.estates_ind_id == EstatesInd.id),
             isouter=True,
         )
+        .filter(or_(Favourite.user_id == user_id, Favourite.user_id == None))
     )
-
-    if user_id != None:
-        get_estates_query = get_estates_query.filter(Favourite.user_id == user_id)
 
     if favourited:
         get_estates_query = get_estates_query.filter(Favourite.favourited == 1)
 
     if max_area != None:
-        get_estates_query = get_estates_query.filter(get_recent_estates.c.total_area <= max_area)
+        get_estates_query = get_estates_query.filter(
+            get_recent_estates.c.total_area <= max_area
+        )
 
     if min_area != None:
-        get_estates_query = get_estates_query.filter(get_recent_estates.c.total_area >= min_area)
+        get_estates_query = get_estates_query.filter(
+            get_recent_estates.c.total_area >= min_area
+        )
 
     if max_price != None:
-        get_estates_query = get_estates_query.filter(get_recent_estates.c.price <= max_price)
+        get_estates_query = get_estates_query.filter(
+            get_recent_estates.c.price <= max_price
+        )
 
     if min_price != None:
-        get_estates_query = get_estates_query.filter(get_recent_estates.c.price >= min_price)
+        get_estates_query = get_estates_query.filter(
+            get_recent_estates.c.price >= min_price
+        )
+
+    get_estates_query = get_estates_query.order_by(get_recent_estates.c.timestamp.desc())
 
     estates = []
 
