@@ -19,6 +19,34 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		async function favourite(user_id, estates_ind_id) {
+            let btn = document.getElementById(`btn-${estates_ind_id}`)
+
+            let favourited = btn.classList.contains("btn-favourite")
+
+            // console.log({user_id, estates_ind_id, favourited})
+
+            let response = await fetch(`/api/favourite?estate_ind_id=${estates_ind_id}&favourited=${favourited}`, {
+                method: "post",
+                credentials: "include"
+            })
+
+            if (!response.ok) throw new Error("FAVOURITE RESPONSE ERROR")
+
+            if (favourited) {
+                btn.classList.remove("btn-favourite")
+                btn.classList.add("btn-favourited")
+                btn.innerText = "Remover"
+            } else {
+                btn.classList.remove("btn-favourited")
+                btn.classList.add("btn-favourite")
+				btn.innerText = "Favoritar"
+            }
+
+            // console.log(response)
+        }
+	</script>
 </head>
 
 <body>
@@ -44,7 +72,7 @@
 					<a class="nav-link" href="/profile">Perfil</a>
 				</li>
 			</ul>
-			
+
 		</div>
 	</nav>
 
@@ -118,12 +146,22 @@
 							<div class="card-footer">
 								<small class="text-muted">
 									<div class="link-container">
-										<a href="#" class="remover">Remover</a>
-										<span> </span>
-										{% if estate.source == "vivareal" %}
-										<a href="https://www.vivareal.com.br/imovel/{{estate.source_id}}" class="ir-para-site">Ir para o site</a>
+										{% if estate.favourited_user_id == user.id and estate.favourited == 1 %}
+										<!-- Desfavoritar -->
+										<a id="btn-{{estate.estates_ind_id}}" class="ir-para-site btn-favourited" onclick="favourite({{user.id}}, {{estate.estates_ind_id}})">
+											Remover
+										</a>
 										{% else %}
-										<a href="https://www.lopes.com.br/imovel/{{estate.source_id}}" class="ir-para-site">Ir para o site</a>
+										<a id="btn-{{estate.estates_ind_id}}" class="ir-para-site btn-favourite" onclick="favourite({{user.id}}, {{estate.estates_ind_id}})">
+											Favoritar
+										</a>
+										{% endif %}
+										{% if estate.source == "vivareal" %}
+										<a href="https://www.vivareal.com.br/imovel/{{estate.source_id}}"
+											class="ir-para-site">Ir para o site</a>
+										{% else %}
+										<a href="https://www.lopes.com.br/imovel/{{estate.source_id}}"
+											class="ir-para-site">Ir para o site</a>
 										{% endif %}
 									</div>
 								</small>
