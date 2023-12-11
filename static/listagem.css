@@ -1,5 +1,27 @@
-.card-deck{
+.card-deck {
     padding-top: 50px;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 700,
+  'GRAD' -25,
+  'opsz' 48
+}
 
+.material-favourited {
+    color: #000;
+    font-variation-settings:
+        'FILL' 1
+}
+
+.btn-favourite {
+    line-height: 0;
+    border-radius: 50%;
+}
+
+.btn-favourited {
+    line-height: 0;
+    border-radius: 50%;
+}
