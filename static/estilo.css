@@ -29,8 +29,19 @@ body {
     outline: none;
 }
 
+.btnfilter {
+    width: 80px; /* Defina o tamanho desejado para o botão */
+    height: 30px;
+    border-radius: 0%; /* Faz com que as bordas sejam totalmente redondas */
+    overflow: hidden; /* Garante que a imagem não ultrapasse as bordas arredondadas */
+    background-color: #333839; /* Cor de fundo do botão (pode ser ajustada conforme necessário) */
+    border: none; /* Remove a borda padrão do botão */
+    cursor: pointer; /* Adiciona o cursor de ponteiro ao passar o mouse sobre o botão */
+    outline: none;
+}
+
 .btn:hover{
-	background: rgb(169, 169, 169);
+	background: #1F2B2E;
 }
 
 h1{

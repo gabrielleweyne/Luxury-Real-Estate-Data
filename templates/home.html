@@ -107,24 +107,24 @@
     <div class="bg-dark container-fluid text-white text-center">
         <div class="row">
             <div class="col-lg-5 col-md-6 py-2"
-                style="display: flex; flex-wrap: wrap; flex-direction: row; align-items: center; justify-content: center;">
+                style="display: flex; flex-wrap: wrap; flex-direction: row; align-items: center; justify-content: center; line-height: center;">
                 <small>
-                    Preço mínimo
+                    PREÇO:&nbsp;&nbsp;min.
                     <input type="number" name="min-price" id="min-price" value="{{price_range.min}}" min="0">
-                    e máximo
+                    &nbsp;&nbsp;máx.
                     <input type="number" name="max-price" id="max-price" value="{{price_range.max}}" min="0">
                 </small>
             </div>
             <div class="col-lg-5 col-md-6 py-2"
                 style="display: flex; flex-wrap: wrap; flex-direction: row; align-items: center; justify-content: center;">
                 <small>
-                    Área mínima
+                    ÁREA:&nbsp;&nbsp;min.
                     <input type="number" name="min-area" id="min-area" value="{{area_range.min}}" min="1">
-                    e máxima
+                    &nbsp;&nbsp;máx.
                     <input type="number" name="max-area" id="max-area" value="{{area_range.max}}" min="1">
                 </small>
             </div>
-            <button type="button" class="btn btn-primary" onclick="filter()">Filtrar</button>
+            <button type="button" class="btnfilter btn-primary" onclick="filter()">Filtrar</button>
         </div>
     </div>
 
