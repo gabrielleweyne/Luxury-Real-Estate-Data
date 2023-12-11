@@ -134,6 +134,7 @@ h1{
 .ir-para-site {
     color: white; /* Cor branca para o link "Ir para o site" */
     text-decoration: none; /* Remove sublinhado do link */
+    margin-left: 15px;
 }
 
 .card-footer{
