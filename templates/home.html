@@ -140,9 +140,9 @@
                 {% for estate in chunk %}
                 <!-- Imóvel -->
                 <div class="card">
-                    <img class="card-img-top" src="{{estate.img if estate.img != None else url_for('static', path='/images/blocked.png') }}" alt="Imagem de capa do card" />
+                    <img class="card-img-top" src="{{estate.img if estate.img != None else url_for('static', path='/images/imgnotfound.png') }}" alt="Imagem de capa do card" />
                     <div class="card-body">
-                        <h5 class="card-title"><a href="/estates/{{estate.estates_ind_id}}">{{estate.type.title() if estate.type != None else None}}, {{estate.district.title() if estate.district != None else None}}</a></h5>
+                        <h5 class="card-title"><a href="/estates/{{estate.estates_ind_id}}">{{estate.type.title() if estate.type != None else "Terreno"}}, {{estate.district.title() if estate.district != None else estate.address.title()}}</a></h5>
                         <p class="card-text">
                             Preço: R$ {{estate.price}}
                          </p>

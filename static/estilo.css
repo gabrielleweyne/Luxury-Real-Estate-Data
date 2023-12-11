@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Almarai', sans-serif;
 	background: linear-gradient(180deg, #00171C 0%, #252F31 28.99%, #333839 54.17%, #1F2B2E 71.54%, #00171C 100%);
     background-color: gray;
 	background-size: 100% 100%;
@@ -11,6 +11,26 @@ body {
     background-color: white;
     position: fixed;
     width: 100%
+}
+
+.form-control{
+    border-radius: 20px;  
+    color: rgb(167, 165, 165);
+}
+
+.btn {
+    width: 38px; 
+    height: 38px;
+    border-radius: 50%; 
+    overflow: hidden; 
+    background-color: rgb(244, 243, 243); 
+    border: none; 
+    cursor: pointer; 
+    outline: none;
+}
+
+.btn:hover{
+	background: rgb(169, 169, 169);
 }
 
 h1{
@@ -30,7 +50,91 @@ h1{
 	padding-bottom: 5rem;
 }
 
+table, th, td {
+    border: none;
+    border-collapse: collapse;
+  }
+
 .limitador {
 	max-width: 1000px;
 	margin: 0 auto;
+    text-align: center;
+    align-items: center;
+    padding: 20px ;
+}
+
+h2{
+    color: white;
+    font-family: 'Anek Gurmukhi', sans-serif;
+}
+
+h3{
+    color: white !important;
+    text-align: center;
+    margin: 0%;
+    font-family: 'Almarai', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+h4{
+    color: white !important;
+    text-align: center;
+    margin: 0%;
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 10px;
+}
+
+.lista{
+    color: white !important;
+    text-align: center;
+    margin: 0%;
+    font-family: 'Almarai', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.describelist{
+    color: white !important;
+    text-align: center;
+    margin: 0%;
+    font-family: 'Almarai', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 30px;
+}
+
+p{
+    color: white;
+    font-family: 'Anek Gurmukhi', sans-serif;
+    font-size: 20px;
+    text-align: justify;
+}
+
+.paragrafo{
+    padding: 10px;
+}
+
+.quemsomos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.fontes{
+    padding-left: 280px;
+    display: inline-block;
 }

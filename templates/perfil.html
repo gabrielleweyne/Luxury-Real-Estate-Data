@@ -72,14 +72,11 @@
 	
 				<div class="card-deck">
 					<div class="card">
-            <!-- Linha de imóvel -->
-            <div class="card-deck">
                 {% for estate in estates %}
-                <!-- Imóvel -->
-                <div class="card">
-                    <img class="card-img-top" src="{{estate.img if estate.img != None else url_for('static', path='/images/blocked.png') }}" alt="Imagem de capa do card" />
+				<div class="card">
+                    <img class="card-img-left" src="{{estate.img if estate.img != None else url_for('static', path='/images/imgnotfound.png') }}" alt="Imagem de capa do card" />
                     <div class="card-body">
-                        <h5 class="card-title"><a href="/estates/{{estate.estates_ind_id}}">{{estate.type.title() if estate.type != None else None}}, {{estate.district.title() if estate.district != None else None}}</a></h5>
+                        <h5 class="card-title"><a href="/estates/{{estate.estates_ind_id}}">{{estate.type.title() if estate.type != None else "Terreno"}}, {{estate.district.title() if estate.district != None else estate.address.title()}}</a></h5>
                         <p class="card-text">
                             Preço: R$ {{estate.price}}
                          </p>
@@ -109,18 +106,23 @@
                         </p>
                     </div>
                     <div class="card-footer">
-                        {% if estate.favourited == 1 %}
-                            <small class="text-muted">Favoritado!</small>
-                        {% else %}
-                            <small class="text-muted">Pode favoritar!</small>
-                        {% endif %}
+						<small class="text-muted">
+							<div class="link-container">
+								<a href="#" class="remover">Remover</a>
+								<span>| </span>
+								{% if estate.source == vivareal %}
+									<a href="https://www.vivareal.com.br/" class="ir-para-site"> Ir para o site</a>
+								{% else %}
+									<a href="https://www.lopes.com.br/" class="ir-para-site">Ir para o site</a>
+								{% endif %}
+							</div>
+						</small>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-					</div>
-			</div>
-	</div>	
+	</div>			
+				
 </body>
 </html>
 
