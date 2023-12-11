@@ -67,6 +67,7 @@ h1{
     margin-left: 160px;
   }
   
+  
   .column {
     float: left;
   }
@@ -107,9 +108,24 @@ h1{
     padding-top: 50px;
 }
 
+.container-fluid{
+    text-align:center;
+}
+
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+}
+
+.card{
+    background-color:#00171C;
+    width: 850px;
+}
+
 .link-container {
     display: flex;
-    justify-content: center;
+    justify-content: right;
 }
 
 .remover {
@@ -119,11 +135,11 @@ h1{
 }
 
 .ir-para-site {
-    color: #3498db; /* Cor azul para o link "Ir para o site" */
+    color: white; /* Cor branca para o link "Ir para o site" */
     text-decoration: none; /* Remove sublinhado do link */
 }
 
 .card-footer{
-    background-color: black;
+    background-color:#1F2B2E;
 }
 

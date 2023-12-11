@@ -19,13 +19,13 @@ body {
 }
 
 .btn {
-    width: 38px; 
+    width: 38px; /* Defina o tamanho desejado para o botão */
     height: 38px;
-    border-radius: 50%; 
-    overflow: hidden; 
-    background-color: rgb(244, 243, 243); 
-    border: none; 
-    cursor: pointer; 
+    border-radius: 50%; /* Faz com que as bordas sejam totalmente redondas */
+    overflow: hidden; /* Garante que a imagem não ultrapasse as bordas arredondadas */
+    background-color: rgb(244, 243, 243); /* Cor de fundo do botão (pode ser ajustada conforme necessário) */
+    border: none; /* Remove a borda padrão do botão */
+    cursor: pointer; /* Adiciona o cursor de ponteiro ao passar o mouse sobre o botão */
     outline: none;
 }
 

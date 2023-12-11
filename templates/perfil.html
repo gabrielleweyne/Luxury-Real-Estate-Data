@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>Perfil</title>
 	<link rel="icon" type="image/x-icon" href="{{ url_for('static', path='images/logo_iggpl_luxury.jpg') }}">
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 	<link rel="stylesheet" href="{{ url_for('static', path='perfil.css') }}" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Almarai&family=Anek+Gurmukhi&family=Be+Vietnam+Pro&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Almarai&family=Anek+Gurmukhi&family=Be+Vietnam+Pro&display=swap"
+		rel="stylesheet">
 
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
 
 	<nav class="navbar navbar-expand-md navbar-light bg-white">
 		<a class="navbar-brand" href="#">
 			<img style="max-width: 100px;" src="{{ url_for('static', path='images/logo_iggpl_luxury.jpg') }}" />
 		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		
+
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
@@ -42,7 +47,8 @@
 			<form class="form-inline my-0">
 				<input class="form-control mr-sm-2" type="search" placeholder="Busque aqui" aria-label="Pesquisa">
 				<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
-					<img src="{{ url_for('static', path='images/lupa.png') }}" style="width: 15px; height: auto; justify-content: center;">
+					<img src="{{ url_for('static', path='images/lupa.png') }}"
+						style="width: 15px; height: auto; justify-content: center;">
 				</button>
 			</form>
 		</div>
@@ -57,73 +63,85 @@
 	<div class="container-fluid fundo-principal m-0">
 
 
-			<div class="limitador">
+		<div class="limitador">
 
-					<div class="row">
-  						<div class="column left">
-							<img style="max-width: 140px"  src="{{ url_for('static', path='/images/gabi.png') }}">
- 					 	</div>
-  						<div class="column right">
-   							<h3 class="lista">Gabrielle Weyne Pedrosa</h3>
-    						<p class="describelist">Conta administrativa</p>
-							<p class="describelist">{{estates_length}} Imóveis salvos</p>
-  						</div>
-					</div>
-	
-				<div class="card-deck">
-					<div class="card">
-                {% for estate in estates %}
-				<div class="card">
-                    <img class="card-img-left" src="{{estate.img if estate.img != None else url_for('static', path='/images/imgnotfound.png') }}" alt="Imagem de capa do card" />
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="/estates/{{estate.estates_ind_id}}">{{estate.type.title() if estate.type != None else "Terreno"}}, {{estate.district.title() if estate.district != None else estate.address.title()}}</a></h5>
-                        <p class="card-text">
-                            Preço: R$ {{estate.price}}
-                         </p>
-                        <p class="card-text">
-							Endereço: {{estate.address}}
-                        </p>
-                        <p class="card-text">
-                            Quartos:{% if estate.dorms == None %}
-                           0
-                        {% else %}
-                          {{estate.dorms}}
-                        {% endif %}
-                        </p>
-                        <p class="card-text">
-                            Banheiros:{% if estate.toilets == None %}
-                           0
-                        {% else %}
-                          {{estate.toilets}}
-                        {% endif %}
-                        </p>
-                        <p class="card-text">
-                            Vagas:{% if estate.parking == None %}
-                           0
-                        {% else %}
-                          {{estate.parking}}
-                        {% endif %}
-                        </p>
-                    </div>
-                    <div class="card-footer">
-						<small class="text-muted">
-							<div class="link-container">
-								<a href="#" class="remover">Remover</a>
-								<span>| </span>
-								{% if estate.source == vivareal %}
-									<a href="https://www.vivareal.com.br/" class="ir-para-site"> Ir para o site</a>
-								{% else %}
-									<a href="https://www.lopes.com.br/" class="ir-para-site">Ir para o site</a>
-								{% endif %}
+			<div class="row">
+				<div class="column left">
+					<img style="max-width: 140px" src="{{ url_for('static', path='/images/gabi.png') }}">
+				</div>
+				<div class="column right">
+					<h3 class="lista">Gabrielle Weyne Pedrosa</h3>
+					<p class="describelist">Conta administrativa</p>
+					<p class="describelist">{{estates_length}} Imóveis salvos</p>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="container-fluid">
+				{% for estate in estates %}
+				<div class="row">
+					<div class="col-12 mt-3">
+						<div class="card">
+							<div class="card-horizontal">
+								<div class="img-square-wrapper">
+									<img class="" style="max-width: 300px"
+										src="{{estate.img if estate.img != None else url_for('static', path='/images/imgnotfound.png') }}"
+										alt="Imagem de capa do card" />
+								</div>
+								<div class="card-body">
+									<h5 class="lista">{{estate.type.title() if
+											estate.type != None else "Terreno"}}, {{estate.district.title() if
+											estate.district != None else estate.address.title()}}</h5>
+									<p class="describelist">
+										Preço: R$ {{estate.price}}
+									</p>
+									<p class="describelist">
+										Endereço: {{estate.address}}
+									</p>
+									<p class="describelist">
+										Quartos:{% if estate.dorms == None %}
+										0
+										{% else %}
+										{{estate.dorms}}
+										{% endif %}
+									</p>
+									<p class="describelist">
+										Banheiros:{% if estate.toilets == None %}
+										0
+										{% else %}
+										{{estate.toilets}}
+										{% endif %}
+									</p>
+									<p class="describelist">
+										Vagas:{% if estate.parking == None %}
+										0
+										{% else %}
+										{{estate.parking}}
+										{% endif %}
+									</p>
+								</div>
 							</div>
-						</small>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-	</div>			
+							<div class="card-footer">
+								<small class="text-muted">
+									<div class="link-container">
+										<a href="#" class="remover">Remover</a>
+										<span> </span>
+										{% if estate.source == vivareal %}
+										<a href="https://www.vivareal.com.br/" class="ir-para-site"> Ir para o site</a>
+										{% else %}
+										<a href="https://www.lopes.com.br/" class="ir-para-site">Ir para o site</a>
+										{% endif %}
+									</div>
+								</small>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
 				
+
 </body>
+
 </html>
 
 <
