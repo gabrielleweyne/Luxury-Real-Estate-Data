@@ -96,12 +96,7 @@
                     <a class="nav-link" href="/profile">Perfil</a>
                 </li>
             </ul>
-            <form class="form-inline my-0">
-				<input class="form-control mr-sm-2" type="search" placeholder="Busque aqui" aria-label="Pesquisa">
-				<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
-					<img src="{{ url_for('static', path='images/lupa.png') }}" style="width: 15px; height: auto; justify-content: center;">
-				</button>
-			</form>
+            
         </div>
     </nav>
 
@@ -143,28 +138,28 @@
                 <div class="card">
                     <img class="card-img-top" src="{{estate.img if estate.img != None else url_for('static', path='/images/imgnotfound.png') }}" alt="Imagem de capa do card" />
                     <div class="card-body">
-                        <h5 class="card-title">{{estate.type.title() if estate.type != None else "Terreno"}}, {{estate.district.title() if estate.district != None else estate.address.title()}}</h5>
-                        <p class="card-text">
+                        <h5 class="lista">{{estate.type.title() if estate.type != None else "Terreno"}}, {{estate.district.title() if estate.district != None else estate.address.title()}}</h5>
+                        <p class="describelist">
                             Preço: R$ {{estate.price}}
                          </p>
-                        <p class="card-text">
+                         <p class="describelist">
 							Endereço: {{estate.address}}
                         </p>
-                        <p class="card-text">
+                        <p class="describelist">
                             Quartos:{% if estate.dorms == None %}
                            0
                         {% else %}
                           {{estate.dorms}}
                         {% endif %}
                         </p>
-                        <p class="card-text">
+                        <p class="describelist">
                             Banheiros:{% if estate.toilets == None %}
                            0
                         {% else %}
                           {{estate.toilets}}
                         {% endif %}
                         </p>
-                        <p class="card-text">
+                        <p class="describelist">
                             Vagas:{% if estate.parking == None %}
                            0
                         {% else %}
