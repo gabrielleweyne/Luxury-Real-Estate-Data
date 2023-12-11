@@ -59,12 +59,12 @@
 
 		<div class="limitador">
 
-			<div class="row">
-				<div class="column left">
+			<div class="row justify-content-center">
+				<div class="col-2">
 					<img style="max-width: 140px" src="{{ url_for('static', path='/images/gabi.png') }}">
 				</div>
-				<div class="column right">
-					<h3 class="lista">Gabrielle Weyne Pedrosa</h3>
+				<div class="col-3">
+					<h3 class="lista">{{user.name}}</h3>
 					<p class="describelist">Conta administrativa</p>
 					<p class="describelist">{{estates_length}} Imóveis salvos</p>
 				</div>
@@ -72,9 +72,9 @@
 			<br>
 			<br>
 			<div class="container-fluid">
-				{% for estate in estates %}
 				<div class="row">
-					<div class="col-12 mt-3">
+					<div class="col">
+						{% for estate in estates %}
 						<div class="card">
 							<div class="card-horizontal">
 								<div class="img-square-wrapper">
@@ -84,8 +84,8 @@
 								</div>
 								<div class="card-body">
 									<h5 class="lista">{{estate.type.title() if
-											estate.type != None else "Terreno"}}, {{estate.district.title() if
-											estate.district != None else estate.address.title()}}</h5>
+										estate.type != None else "Terreno"}}, {{estate.district.title() if
+										estate.district != None else estate.address.title()}}</h5>
 									<p class="describelist">
 										Preço: R$ {{estate.price}}
 									</p>
@@ -120,19 +120,21 @@
 									<div class="link-container">
 										<a href="#" class="remover">Remover</a>
 										<span> </span>
-										{% if estate.source == vivareal %}
-										<a href="https://www.vivareal.com.br/" class="ir-para-site"> Ir para o site</a>
+										{% if estate.source == "vivareal" %}
+										<a href="https://www.vivareal.com.br/imovel/{{estate.source_id}}" class="ir-para-site">Ir para o site</a>
 										{% else %}
-										<a href="https://www.lopes.com.br/" class="ir-para-site">Ir para o site</a>
+										<a href="https://www.lopes.com.br/imovel/{{estate.source_id}}" class="ir-para-site">Ir para o site</a>
 										{% endif %}
 									</div>
 								</small>
 							</div>
 						</div>
+						{% endfor %}
 					</div>
-					{% endfor %}
 				</div>
-				
+			</div>
+		</div>
+
 
 </body>
 

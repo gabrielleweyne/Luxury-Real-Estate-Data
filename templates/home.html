@@ -134,7 +134,7 @@
             <!-- Linha de imóvel -->
             <div class="card-deck">
                 {% for estate in chunk %}
-                <!-- Imóvel -->
+                <!-- Imóvel {{estate.estates_ind_id}}-->
                 <div class="card">
                     <img class="card-img-top" src="{{estate.img if estate.img != None else url_for('static', path='/images/imgnotfound.png') }}" alt="Imagem de capa do card" />
                     <div class="card-body">
