@@ -169,12 +169,15 @@
                     </div>
                     <div class="card-footer">
                         {% if estate.favourited_user_id == user.id and estate.favourited == 1 %}
-                            <button 
+                            <!-- Desfavoritar -->
+                          <button 
                                 type="button" 
-                                class="btn btn-danger" 
+                                class="btn btn-outline-primary my-2 my-sm-0"
                                 id="btn-{{estate.estates_ind_id}}"
                                 onclick="favourite({{user.id}}, {{estate.estates_ind_id}})">
-                                Desfavoritar</button>
+                                <img src="{{ url_for('static', path='images/lupa.png') }}" style="width: 15px; height: auto; justify-content: center;">
+                            </button>
+                               
                         {% else %}
                             <button 
                                 type="button" 
