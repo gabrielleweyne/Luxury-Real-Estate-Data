@@ -17,6 +17,9 @@ estate_keys = [
     "total_area",
     "estates_ind_id",
     "favourited",
+    "favourited_user_id",
+    "type",
+    "district",
     "img"
 ]
 
