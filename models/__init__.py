@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 user = "root"
-password = "root"
+password = "mundoanimal"
 mysql = "localhost:3306"
 database = "scrap_estates"
 
